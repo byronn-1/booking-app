@@ -10,7 +10,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class StudentMutationResolver {
 
-    StudentService studentService = new StudentService();
+    private final StudentService studentService;
+
+    public StudentMutationResolver(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @MutationMapping
     public Student addStudent(@Argument(name="studentInput") StudentInput studentInput){

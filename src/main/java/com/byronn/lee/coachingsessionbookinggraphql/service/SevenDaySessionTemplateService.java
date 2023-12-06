@@ -18,11 +18,17 @@ import java.time.temporal.TemporalAdjusters;
 @Service
 public class SevenDaySessionTemplateService {
 
-    @Autowired
-    private SevenDaySessionTemplateRepository sevenDaySessionRepository;
 
-    @Autowired
-    private SessionRepository sessionRepository;
+    private final SevenDaySessionTemplateRepository sevenDaySessionRepository;
+    private final SessionRepository sessionRepository;
+    public SevenDaySessionTemplateService(SevenDaySessionTemplateRepository sevenDaySessionRepository,SessionRepository sessionRepository){
+        this.sevenDaySessionRepository = sevenDaySessionRepository;
+        this.sessionRepository = sessionRepository;
+    }
+
+
+
+
     @Transactional
     public SevenDaySessionTemplate createSevenDaySessionTemplate(SevenDaySessionTemplateInput data) {
 

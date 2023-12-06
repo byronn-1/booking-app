@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SevenDaySessionTemplateMutationResolver {
 
-    SevenDaySessionTemplateService sevenDayTemplateService = new SevenDaySessionTemplateService();
+    public final SevenDaySessionTemplateService sevenDayTemplateService;
 
+    private SevenDaySessionTemplateMutationResolver( SevenDaySessionTemplateService sevenDayTemplateService){
+        this.sevenDayTemplateService = sevenDayTemplateService;
+    }
     @MutationMapping
     public SevenDaySessionTemplate createSevenDaySessionTemplate(@Argument(name="SevenDaySessionTemplate") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
 
