@@ -62,7 +62,7 @@ public class Student {
         this.phoneNo = phoneNo;
     }
 
-    public boolean isWaiverSigned() {
+    public boolean getIsWaiverSigned() {
         return isWaiverSigned;
     }
 

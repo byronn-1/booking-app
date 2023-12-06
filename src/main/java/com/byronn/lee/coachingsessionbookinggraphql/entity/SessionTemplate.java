@@ -58,7 +58,4 @@ public class SessionTemplate {
         return time;
     }
 
-    public SevenDaySessionTemplate getSevenDaySessionTemplate() {
-        return SevenDaySessionTemplate;
-    }
 }
