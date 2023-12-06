@@ -19,10 +19,6 @@ import java.util.function.Function;
 @Service
 public class StudentService {
 
-/*    @Autowired
-    private StudentRepository studentRepository;*/
-
-
      private final StudentRepository studentRepository;
 
      public StudentService(StudentRepository studentRepository){
