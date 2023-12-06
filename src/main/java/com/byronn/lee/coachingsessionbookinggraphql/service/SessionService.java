@@ -69,7 +69,7 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
-    @Transactional
+/*    @Transactional
     public void createSessionsFromSevenDayTemplate(Long templateId, LocalDate weekStartDate) {
         SevenDaySessionTemplate template = SevenDaySessionTemplateRepository.findById(templateId)
                 .orElseThrow(() -> new RuntimeException("Template not found"));
@@ -85,5 +85,5 @@ public class SessionService {
 
             sessionRepository.save(newSession);
         }
-    }
+    }*/
 }

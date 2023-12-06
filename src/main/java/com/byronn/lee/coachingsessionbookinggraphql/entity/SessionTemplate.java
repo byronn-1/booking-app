@@ -23,15 +23,15 @@ public class SessionTemplate {
 
     @ManyToOne
     @JoinColumn(name = "seven_day_template_id")
-    private SessionTemplate sessionTemplate;
+    private SevenDaySessionTemplate sevenDaySessionTemplate;
 
-    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SessionTemplate sessionTemplate) {
+    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SevenDaySessionTemplate sevenDaySessionTemplate) {
         this.id = id;
         this.sessionType = sessionType;
         this.location = location;
         this.dayOfTheWeek = dayOfTheWeek;
         this.time = time;
-        this.sessionTemplate = sessionTemplate;
+        this.sevenDaySessionTemplate = sevenDaySessionTemplate;
     }
 
     public SessionTemplate() {
@@ -58,7 +58,7 @@ public class SessionTemplate {
         return time;
     }
 
-    public SessionTemplate getSessionTemplate() {
-        return sessionTemplate;
+    public SevenDaySessionTemplate getSevenDaySessionTemplate() {
+        return SevenDaySessionTemplate;
     }
 }

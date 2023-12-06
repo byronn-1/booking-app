@@ -8,14 +8,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
+
 
 @Service
 public class SevenDaySessionTemplateService {
 
-/*    @Autowired
-    private SevenDaySessionTemplateRepository sevenDaySessionRepository;*/
+    @Autowired
+    private SevenDaySessionTemplateRepository sevenDaySessionRepository;
 
-    SevenDaySessionTemplateRepository sevenDaySessionRepository = new  SevenDaySessionTemplateRepository();
     @Autowired
     private SessionRepository sessionRepository;
     @Transactional
@@ -26,24 +31,38 @@ public class SevenDaySessionTemplateService {
         sevenDayTemplate.setCoach(data.getCoach());
 
         sevenDayTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
-
+        LocalDate weekStartDate = LocalDate.now();
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
-            Session session = createSessionFromTemplate(sessionTemplateInput, sevenDayTemplate);
+            Session session = createSessionFromTemplate(sessionTemplateInput, sevenDayTemplate, weekStartDate);
             sessionRepository.save(session);
         }
 
         return sevenDayTemplate;
     }
 
-    private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, SevenDaySessionTemplate sevenDayTemplate) {
+    private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, SevenDaySessionTemplate sevenDayTemplate, LocalDate weekStartDate) {
         Session session = new Session();
         session.setSessionType(sessionTemplateInput.getSessionType());
         session.setLocation(sessionTemplateInput.getLocation());
-        // Add logic to calculate the specific date and time for the session
-        // based on the dayOfWeek, time, and possibly the start date of the sevenDayTemplate
-        session.setDayOfWeek(sessionTemplateInput.getDayOfWeek());
-        session.setTime(sessionTemplateInput.getTime());
+
+        // Extract the time part from the LocalDateTime
+        LocalTime sessionTime = sessionTemplateInput.getTime().toLocalTime();
+
+        // Calculate the date and time for the session
+        LocalDate sessionDate = calculateSessionDate(weekStartDate, sessionTemplateInput.getSessionTemplate().getDayOfTheWeek());
+        LocalDateTime sessionDateTime = LocalDateTime.of(sessionDate, sessionTime);
+        session.setTime(sessionDateTime);
+
+        // `isBooked`, `isPaidFor`, etc., set them
+        // ...
 
         return session;
+    }
+
+    private LocalDate calculateSessionDate(LocalDate weekStartDate, int dayOfTheWeek) {
+        // Convert dayOfTheWeek int to DayOfWeek
+        DayOfWeek day = DayOfWeek.of(dayOfTheWeek);
+        // Adjust the day of the week to the correct date of that week
+        return weekStartDate.with(TemporalAdjusters.nextOrSame(day));
     }
 }

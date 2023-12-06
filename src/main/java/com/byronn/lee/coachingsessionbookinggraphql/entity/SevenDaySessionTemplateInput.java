@@ -7,9 +7,9 @@ public class SevenDaySessionTemplateInput {
     private Long id;
     private String templateName;
     private String coach;
-    private List<SessionTemplate> sessionTemplates;
+    private List<SessionTemplateInput> sessionTemplates;
 
-    public SevenDaySessionTemplateInput(Long id, String templateName, String coach, List<SessionTemplate> sessionTemplates) {
+    public SevenDaySessionTemplateInput(Long id, String templateName, String coach, List<SessionTemplateInput> sessionTemplates) {
         this.id = id;
         this.templateName = templateName;
         this.coach = coach;
@@ -28,7 +28,7 @@ public class SevenDaySessionTemplateInput {
         return coach;
     }
 
-    public List<SessionTemplate> getSessionTemplates() {
+    public List<SessionTemplateInput> getSessionTemplates() {
         return sessionTemplates;
     }
 

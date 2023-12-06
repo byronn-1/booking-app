@@ -19,7 +19,11 @@ CREATE TABLE session (
                          student_id BIGINT,
                          FOREIGN KEY (student_id) REFERENCES student(id)
 );
-
+CREATE TABLE seven_day_session_template (
+                                            id BIGINT PRIMARY KEY AUTO_INCREMENT,
+                                            template_name VARCHAR(255),
+                                            coach VARCHAR(255)
+);
 
 CREATE TABLE session_template (
                                   id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -28,11 +32,6 @@ CREATE TABLE session_template (
                                   day_of_week INT,
                                   time TIME,
                                   seven_day_template_id BIGINT,
-                                  FOREIGN KEY (template_id) REFERENCES session_template(id)
+                                  FOREIGN KEY (seven_day_template_id) REFERENCES seven_day_session_template(id)
 );
 
-CREATE TABLE seven_day_session_template (
-                                  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-                                  template_name VARCHAR(255),
-                                  coach VARCHAR(255)
-);
