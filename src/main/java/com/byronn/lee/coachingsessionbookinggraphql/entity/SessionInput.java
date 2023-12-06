@@ -1,15 +1,17 @@
 package com.byronn.lee.coachingsessionbookinggraphql.entity;
 
+import java.time.LocalDateTime;
+
 public class SessionInput {
     private String sessionType;
     private String location;
-    private String time;
+    private LocalDateTime time;
     private Boolean isBooked;
     private Boolean isPaidFor;
     private Boolean isCompleted;
     private Long studentId;
 
-    public SessionInput(String sessionType, String location, String time, Boolean isBooked, Boolean isPaidFor, Boolean isCompleted, Long studentId) {
+    public SessionInput(String sessionType, String location, LocalDateTime time, Boolean isBooked, Boolean isPaidFor, Boolean isCompleted, Long studentId) {
         this.sessionType = sessionType;
         this.location = location;
         this.time = time;
@@ -27,7 +29,7 @@ public class SessionInput {
         return location;
     }
 
-    public String getTime() {
+    public LocalDateTime getTime() {
         return time;
     }
 

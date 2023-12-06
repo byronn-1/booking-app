@@ -64,7 +64,7 @@ public class Session {
         this.time = time;
     }
 
-    public boolean isBooked() {
+    public boolean getIsBooked() {
         return isBooked;
     }
 
@@ -72,7 +72,7 @@ public class Session {
         isBooked = booked;
     }
 
-    public boolean isPaidFor() {
+    public boolean getIsPaidFor() {
         return isPaidFor;
     }
 
@@ -80,7 +80,7 @@ public class Session {
         isPaidFor = paidFor;
     }
 
-    public boolean isCompleted() {
+    public boolean getIsCompleted() {
         return isCompleted;
     }
 

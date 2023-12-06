@@ -3,13 +3,11 @@ package com.byronn.lee.coachingsessionbookinggraphql.service;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.Student;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.StudentInput;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.StudentRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;

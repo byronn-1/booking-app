@@ -42,17 +42,24 @@ public class SessionService {
 
     @Transactional
     public Session createSession(SessionInput sessionInput){
+        if (sessionInput == null) {
+            // Handle or throw an exception based on your application's requirements
+            throw new IllegalArgumentException("Session input cannot be null");
+        }
 
         Session newSession = new Session();
         newSession.setSessionType(sessionInput.getSessionType());
         newSession.setLocation(sessionInput.getLocation());
-        newSession.setTime(LocalDateTime.parse(sessionInput.getTime(), DateTimeFormatter.ISO_LOCAL_DATE_TIME));
+        newSession.setTime(sessionInput.getTime());
         newSession.setIsBooked(sessionInput.getIsBooked());
         newSession.setIsPaidFor(sessionInput.getIsPaidFor());
         newSession.setIsCompleted(sessionInput.getIsCompleted());
 
-        return sessionRepository.save(newSession);
-
+        try {
+            return sessionRepository.save(newSession);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving session to the repository", e);
+        }
     }
     @Transactional
     public List<Session> getSessionsByDay(LocalDate day) {
