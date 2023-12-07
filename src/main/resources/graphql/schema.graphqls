@@ -56,8 +56,16 @@ input StudentInput {
     isWaiverSigned: Boolean!
 }
 
+input SessionTemplateInput {
+    templateName: String
+    coach: String
+    sessionTemplates: [SessionInput]
+}
 
 type Mutation {
     addStudent(input: StudentInput!): Student
     createSession(input: SessionInput!): Session
+    createSevenDaySessionTemplate(input: SessionTemplateInput!, weekStartDate: LocalDateTime): SessionTemplate
+    createSevenDaySessionTemplateWithoutSessions(input: SessionTemplateInput!): SessionTemplate
+    updateSevenDaySessionTemplate(templateId: ID!, input: SessionTemplateInput!): SessionTemplate
 }

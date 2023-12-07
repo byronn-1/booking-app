@@ -58,4 +58,23 @@ public class SessionTemplate {
         return time;
     }
 
+    public void setSessionType(String sessionType) {
+        this.sessionType = sessionType;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setDayOfTheWeek(int dayOfTheWeek) {
+        this.dayOfTheWeek = dayOfTheWeek;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {
+        this.sevenDaySessionTemplate = sevenDaySessionTemplate;
+    }
 }

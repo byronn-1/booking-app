@@ -15,8 +15,22 @@ public class SevenDaySessionTemplateMutationResolver {
         this.sevenDayTemplateService = sevenDayTemplateService;
     }
     @MutationMapping
-    public SevenDaySessionTemplate createSevenDaySessionTemplate(@Argument(name="SevenDaySessionTemplate") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
+    public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="SevenDaySessionTemplate") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
 
-        return sevenDayTemplateService.createSevenDaySessionTemplate(sevenDaySessionTemplateInput);
+        return sevenDayTemplateService.createSevenDaySessionsTemplate(sevenDaySessionTemplateInput);
     }
+    @MutationMapping
+    public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(
+            @Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
+
+        return sevenDayTemplateService.createSevenDaySessionTemplateWithoutSessions(sevenDaySessionTemplateInput);
+    }
+    @MutationMapping
+    public SevenDaySessionTemplate updateSevenDaySessionTemplate(
+            @Argument(name="templateId") Long templateId,
+            @Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
+
+        return sevenDayTemplateService.updateSevenDaySessionTemplate(templateId, sevenDaySessionTemplateInput);
+    }
+
 }

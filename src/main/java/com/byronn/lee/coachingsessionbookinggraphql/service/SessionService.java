@@ -21,10 +21,6 @@ import java.util.stream.Collectors;
 @Service
 public class SessionService {
 
-/*
-    @Autowired
-    private SessionRepository sessionRepository;
-*/
     private final SessionRepository sessionRepository;
 
     public SessionService(SessionRepository sessionRepository){
