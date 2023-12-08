@@ -6,6 +6,8 @@ public class SessionInput {
     private String sessionType;
     private String location;
     private LocalDateTime time;
+//length of booking
+
     private Boolean isBooked;
     private Boolean isPaidFor;
     private Boolean isCompleted;

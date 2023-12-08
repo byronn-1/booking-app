@@ -3,8 +3,11 @@ package com.byronn.lee.coachingsessionbookinggraphql.service;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionTemplate;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionTemplateInput;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionTemplateRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -15,33 +18,62 @@ public class SessionTemplateService {
         this.sessionTemplateRepository = sessionTemplateRepository;
     }
 
-    public Optional<SessionTemplate> findSessionTemplateBySevenDayTemplateId(Long sessionId) {
-        return sessionTemplateRepository.findAllBySevenDayTemplateId(sessionId);
+    public List<SessionTemplate> findAllBySevenDayTemplateId(Long sevenDayTemplateId) {
+        if (sevenDayTemplateId == null) {
+            throw new IllegalArgumentException("Seven day template ID must not be null");
+        }
+        try {
+            return sessionTemplateRepository.findAllBySevenDaySessionTemplateId(sevenDayTemplateId);
+        } catch (DataAccessException e) {
+            // Log error, handle exception, or rethrow as a custom exception
+            throw e;
+        }
     }
 
-    public SessionTemplate saveSessionTemplate(SessionTemplate sessionTemplate) {
-        return sessionTemplateRepository.save(sessionTemplate);
+    @Transactional
+    public void saveSessionTemplate(SessionTemplate sessionTemplate) {
+        if (sessionTemplate == null) {
+            throw new IllegalArgumentException("Session template must not be null");
+        }
+        try {
+            sessionTemplateRepository.save(sessionTemplate);
+        } catch (DataAccessException e) {
+            // Log error, handle exception, or rethrow as a custom exception
+            throw e;
+        }
     }
 
+    @Transactional
     public void deleteSessionTemplate(Long id) {
-        sessionTemplateRepository.deleteById(id);
+        if (id == null) {
+            throw new IllegalArgumentException("Session template ID must not be null");
+        }
+        try {
+            sessionTemplateRepository.deleteById(id);
+        } catch (DataAccessException e) {
+            // Log error, handle exception, or rethrow as a custom exception
+            throw e;
+        }
     }
 
+    @Transactional
     public void updateExistingSession(SessionTemplate existingSession, SessionTemplateInput updatedSessionInput) {
-        // Update the properties of the existing session template with values from the updatedSessionInput.
-        // Assume that SessionTemplateInput has fields similar to SessionTemplate entity and appropriate getter methods.
+        if (existingSession == null || updatedSessionInput == null) {
+            throw new IllegalArgumentException("Existing session and updated session input must not be null");
+        }
 
+        // Update the properties of the existing session template with values from the updatedSessionInput
         existingSession.setSessionType(updatedSessionInput.getSessionType());
         existingSession.setLocation(updatedSessionInput.getLocation());
-        existingSession.setDayOfTheWeek(updatedSessionInput.getDayOfTheWeek());
-
-        // Assuming that SessionTemplateInput has a time field of type LocalTime or similar
+        // existingSession.setDayOfTheWeek(updatedSessionInput.getDayOfTheWeek()); // Uncomment and use if applicable
         existingSession.setTime(updatedSessionInput.getTime());
 
-        // Any other properties that need to be updated should be set here.
-        // ...
-
-        // Save the updated session template to the repository.
-        sessionTemplateRepository.save(existingSession);
+        // Save the updated session template to the repository
+        try {
+            sessionTemplateRepository.save(existingSession);
+        } catch (DataAccessException e) {
+            // Log error, handle exception, or rethrow as a custom exception
+            throw e;
+        }
     }
 }

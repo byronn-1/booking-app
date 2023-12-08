@@ -9,7 +9,7 @@ public class Session {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+//length of booking
     @Column(name = "session_type")
     private String sessionType;
 

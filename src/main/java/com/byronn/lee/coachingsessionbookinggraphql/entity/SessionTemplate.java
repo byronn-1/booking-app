@@ -4,7 +4,6 @@ package com.byronn.lee.coachingsessionbookinggraphql.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
 @Table(name = "session_template")
@@ -12,6 +11,8 @@ public class SessionTemplate {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+//length of booking
+
     @Column(name="session_type")
     private String sessionType;
     @Column(name="location")

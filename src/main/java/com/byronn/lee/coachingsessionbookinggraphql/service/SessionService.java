@@ -2,18 +2,13 @@ package com.byronn.lee.coachingsessionbookinggraphql.service;
 
 import com.byronn.lee.coachingsessionbookinggraphql.entity.Session;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionInput;
-import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionTemplate;
-import com.byronn.lee.coachingsessionbookinggraphql.entity.SevenDaySessionTemplate;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionRepository;
-import com.byronn.lee.coachingsessionbookinggraphql.repository.SevenDaySessionTemplateRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;

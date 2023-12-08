@@ -2,7 +2,6 @@ package com.byronn.lee.coachingsessionbookinggraphql.entity;
 
 import jakarta.persistence.*;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
@@ -43,5 +42,20 @@ public class SevenDaySessionTemplate {
 
     public void setSessionTemplates(List<SessionTemplate> sessionTemplates) {
         this.sessionTemplates = sessionTemplates;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public List<SessionTemplate> getSessionTemplates() {
+        return sessionTemplates;
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public String getCoach() {
+        return coach;
     }
 }

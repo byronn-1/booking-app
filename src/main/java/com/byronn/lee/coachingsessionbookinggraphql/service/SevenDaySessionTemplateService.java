@@ -4,7 +4,6 @@ import com.byronn.lee.coachingsessionbookinggraphql.entity.*;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionRepository;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SevenDaySessionTemplateRepository;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -41,18 +40,31 @@ public class SevenDaySessionTemplateService {
     @Transactional
     public SevenDaySessionTemplate createSevenDaySessionsTemplate(SevenDaySessionTemplateInput data) {
 
+        if (data == null) {
+            throw new IllegalArgumentException("Input cannot be null");
+        }
         SevenDaySessionTemplate sevenDayTemplate = new SevenDaySessionTemplate();
         sevenDayTemplate.setTemplateName(data.getTemplateName());
         sevenDayTemplate.setCoach(data.getCoach());
 
-        sevenDayTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
+        SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
         LocalDate weekStartDate = LocalDate.now();
+
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
-            Session session = createSessionFromTemplate(sessionTemplateInput, sevenDayTemplate, weekStartDate);
+            // Create and save SessionTemplate entities
+            SessionTemplate sessionTemplate = new SessionTemplate();
+            sessionTemplate.setSessionType(sessionTemplateInput.getSessionType());
+            sessionTemplate.setLocation(sessionTemplateInput.getLocation());
+            sessionTemplate.setTime(sessionTemplateInput.getTime());
+            sessionTemplate.setSevenDaySessionTemplate(savedTemplate);
+            sessionTemplateService.saveSessionTemplate(sessionTemplate);
+
+            // Create and save Session entities
+            Session session = createSessionFromTemplate(sessionTemplateInput, savedTemplate, weekStartDate);
             sessionRepository.save(session);
         }
 
-        return sevenDayTemplate;
+        return savedTemplate;
     }
 
     private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, SevenDaySessionTemplate sevenDayTemplate, LocalDate weekStartDate) {
@@ -117,13 +129,13 @@ public class SevenDaySessionTemplateService {
         existingTemplate.setTemplateName(updatedData.getTemplateName());
         existingTemplate.setCoach(updatedData.getCoach());
 
-        updateSessionTemplates(existingTemplate, updatedData.getSessionTemplates());
+        updateRelatedSessionTemplates(existingTemplate, updatedData.getSessionTemplates());
 
         return sevenDaySessionRepository.save(existingTemplate);
     }
 
 
-    private void updateSessionTemplates(SevenDaySessionTemplate sevenDayTemplate, List<SessionTemplateInput> updatedSessions) {
+    private void updateRelatedSessionTemplates(SevenDaySessionTemplate sevenDayTemplate, List<SessionTemplateInput> updatedSessions) {
         // Fetch all current session templates associated with the sevenDayTemplate
         List<SessionTemplate> currentSessions = sessionTemplateService.findAllBySevenDayTemplateId(sevenDayTemplate.getId());
         Set<Long> currentSessionIds = currentSessions.stream()
@@ -139,10 +151,20 @@ public class SevenDaySessionTemplateService {
                 SessionTemplate existingSession = existingSessionOpt.get();
                 sessionTemplateService.updateExistingSession(existingSession, updatedSessionInput);
                 currentSessionIds.remove(existingSession.getId());
-            } else {
-                // If no existing session, create a new one
-                SessionTemplate newSession = createSessionFromTemplate(updatedSessionInput, sevenDayTemplate);
-                sessionTemplateService.saveSessionTemplate(newSession);
+            }
+            else {
+
+                // Create a new SessionTemplate entity for each SessionTemplateInput
+                SessionTemplate sessionTemplate = new SessionTemplate();
+
+                sessionTemplate.setSessionType(updatedSessionInput.getSessionType());
+                sessionTemplate.setLocation(updatedSessionInput.getLocation());
+                sessionTemplate.setTime(updatedSessionInput.getTime());
+//                sessionTemplate.setSevenDaySessionTemplate(savedTemplate); // Associate with the seven-day template
+
+//                 If no existing session, create a new one
+//                SessionTemplate newSession = createSessionFromTemplate(updatedSessionInput, sevenDayTemplate);
+                sessionTemplateService.saveSessionTemplate(sessionTemplate);
             }
         }
 

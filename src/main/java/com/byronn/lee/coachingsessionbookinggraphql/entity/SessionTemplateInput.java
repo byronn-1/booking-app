@@ -7,6 +7,8 @@ public class SessionTemplateInput {
     private String sessionType;
     private String location;
     private LocalDateTime time;
+//length of booking
+
     private SessionTemplate sessionTemplate;
 
     public SessionTemplateInput(String sessionType, String location, LocalDateTime time, SessionTemplate sessionTemplate) {
