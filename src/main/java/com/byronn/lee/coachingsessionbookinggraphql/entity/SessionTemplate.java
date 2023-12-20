@@ -21,22 +21,33 @@ public class SessionTemplate {
     private int dayOfTheWeek; // Storing day of the week
     @Column(name="time")
     private LocalDateTime time;
+    @Column(name="seven_day_template_id")
+    private Long sevenDaySessionTemplateId;
 
-    @ManyToOne
+/*    @ManyToOne
     @JoinColumn(name = "seven_day_template_id")
-    private SevenDaySessionTemplate sevenDaySessionTemplate;
+    private SevenDaySessionTemplate sevenDaySessionTemplate;*/
 
-    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SevenDaySessionTemplate sevenDaySessionTemplate) {
+    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SevenDaySessionTemplate sevenDaySessionTemplate, Long sevenDaySessionTemplateId) {
         this.id = id;
         this.sessionType = sessionType;
         this.location = location;
         this.dayOfTheWeek = dayOfTheWeek;
         this.time = time;
-        this.sevenDaySessionTemplate = sevenDaySessionTemplate;
+        this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
+//        this.sevenDaySessionTemplate = sevenDaySessionTemplate;
     }
 
     public SessionTemplate() {
 
+    }
+
+    public Long getSevenDaySessionTemplateId() {
+        return sevenDaySessionTemplateId;
+    }
+
+    public void setSevenDaySessionTemplateId(Long sevenDaySessionTemplateId) {
+        this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
     }
 
     public Long getId() {
@@ -54,6 +65,10 @@ public class SessionTemplate {
     public int getDayOfTheWeek() {
         return dayOfTheWeek;
     }
+
+/*    public SevenDaySessionTemplate getSevenDaySessionTemplate() {
+        return sevenDaySessionTemplate;
+    }*/
 
     public LocalDateTime getTime() {
         return time;
@@ -75,7 +90,7 @@ public class SessionTemplate {
         this.time = time;
     }
 
-    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {
+/*    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {
         this.sevenDaySessionTemplate = sevenDaySessionTemplate;
-    }
+    }*/
 }

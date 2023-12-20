@@ -6,16 +6,35 @@ import java.util.List;
 public class SessionTemplateInput {
     private String sessionType;
     private String location;
+
+    private int dayOfTheWeek;
     private LocalDateTime time;
 //length of booking
 
-    private SessionTemplate sessionTemplate;
+    private Long sevenDaySessionTemplateId;
 
-    public SessionTemplateInput(String sessionType, String location, LocalDateTime time, SessionTemplate sessionTemplate) {
+    public SessionTemplateInput(String sessionType, String location,int dayOfTheWeek, LocalDateTime time, Long sevenDaySessionTemplateId) {
         this.sessionType = sessionType;
         this.location = location;
+        this.dayOfTheWeek = dayOfTheWeek;
         this.time = time;
-        this.sessionTemplate = sessionTemplate;
+        this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
+    }
+
+    public Long getSevenDayTemplateId() {
+        return sevenDaySessionTemplateId;
+    }
+
+    public void setSevenDayTemplateId(Long sevenDayTemplateId) {
+        this.sevenDaySessionTemplateId = sevenDayTemplateId;
+    }
+
+    public int getDayOfTheWeek() {
+        return dayOfTheWeek;
+    }
+
+    public void setDayOfTheWeek(int dayOfTheWeek) {
+        this.dayOfTheWeek = dayOfTheWeek;
     }
 
     public void setSessionType(String sessionType) {
@@ -30,10 +49,6 @@ public class SessionTemplateInput {
         this.time = time;
     }
 
-    public void setSessionTemplate(SessionTemplate sessionTemplate) {
-        this.sessionTemplate = sessionTemplate;
-    }
-
     public String getSessionType() {
         return sessionType;
     }
@@ -46,7 +61,4 @@ public class SessionTemplateInput {
         return time;
     }
 
-    public SessionTemplate getSessionTemplate() {
-        return sessionTemplate;
-    }
 }

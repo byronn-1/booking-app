@@ -1,5 +1,6 @@
 package com.byronn.lee.coachingsessionbookinggraphql.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.util.HashSet;
@@ -10,6 +11,7 @@ import java.util.Set;
 public class Student {
 
     @Id
+    @Column(name="id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -26,6 +28,7 @@ public class Student {
     private boolean isWaiverSigned;
 
     @OneToMany(mappedBy = "student", cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Session> sessions = new HashSet<>();
 
     // Standard getters and setters

@@ -1,7 +1,11 @@
 package com.byronn.lee.coachingsessionbookinggraphql.service;
 
 import com.byronn.lee.coachingsessionbookinggraphql.entity.*;
+import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionRepository;
+import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionTemplateRepository;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SevenDaySessionTemplateRepository;
+import com.byronn.lee.coachingsessionbookinggraphql.repository.StudentRepository;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +27,21 @@ class SevenDaySessionTemplateServiceIntegrationTest {
 
     @Autowired
     private SevenDaySessionTemplateRepository sevenDaySessionTemplateRepository;
+    @Autowired
+    private SessionTemplateRepository sessionTemplateRepository;
+    @Autowired
+    private SessionRepository sessionRepository;
+    @Autowired
+    private StudentRepository studentRepository; // Assuming you have a repository for students
 
+    @BeforeEach
+    void setUp() {
+        // Clear the data in all tables
+        sessionRepository.deleteAll();
+        sessionTemplateRepository.deleteAll();
+        sevenDaySessionTemplateRepository.deleteAll();
+        studentRepository.deleteAll();
+    }
     @Test
     void createSevenDaySessionsTemplate_IntegrationTest() {
         // Arrange

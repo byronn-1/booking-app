@@ -10,7 +10,6 @@ import org.springframework.stereotype.Controller;
 @Controller
 public class SessionMutationResolver {
 
-//    SessionService sessionService = new SessionService();
 
     private final SessionService sessionService;
 

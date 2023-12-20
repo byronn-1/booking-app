@@ -18,6 +18,8 @@ public class SessionTemplateService {
         this.sessionTemplateRepository = sessionTemplateRepository;
     }
 
+    public List<SessionTemplate> getAllSessionTemplates(){return sessionTemplateRepository.findAll();}
+
     public List<SessionTemplate> findAllBySevenDayTemplateId(Long sevenDayTemplateId) {
         if (sevenDayTemplateId == null) {
             throw new IllegalArgumentException("Seven day template ID must not be null");

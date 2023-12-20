@@ -1,5 +1,6 @@
 package com.byronn.lee.coachingsessionbookinggraphql.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -29,7 +30,8 @@ public class Session {
     private boolean isCompleted;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
+    @JoinColumn(name = "student_id")
+    @JsonBackReference
     private Student student;
 
     public Long getId() {

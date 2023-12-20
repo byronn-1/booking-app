@@ -6,6 +6,8 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDate;
+
 @Controller
 public class SevenDaySessionTemplateMutationResolver {
 
@@ -15,9 +17,9 @@ public class SevenDaySessionTemplateMutationResolver {
         this.sevenDayTemplateService = sevenDayTemplateService;
     }
     @MutationMapping
-    public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="SevenDaySessionTemplate") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
+    public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput,@Argument(name="weekStartDate") LocalDate weekStartDate) {
 
-        return sevenDayTemplateService.createSevenDaySessionsTemplate(sevenDaySessionTemplateInput);
+        return sevenDayTemplateService.createSevenDaySessionsTemplate(sevenDaySessionTemplateInput, weekStartDate);
     }
     @MutationMapping
     public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(

@@ -24,25 +24,34 @@ type Student {
 
 type SessionTemplate {
     id: ID!
+    sessionType: String
+    location: String
+    dayOfTheWeek: Int
+    time: LocalDateTime
+    sevenDaySessionTemplate: ID!
+}
+
+type SevenDaySessionTemplate {
+    id:ID!
     templateName: String
-    firstDayOfWeek: LocalDateTime
-    sessions:[Session]
     coach: String
+    sessionTemplates: [SessionTemplate]
 }
 
 type Query {
     allSessions: [Session]
     getAllStudents: [Student]
+    getAllSessionTemplates: [SessionTemplate]
     getSessionsByStudentFirstName(firstName: String!): [Session]
-    getSessionsByDay(day: String!): [Session]
-    getSessionByWeek(week: String!):[Session]
+    getSessionsByDay(date: String!): [Session]
+    getSessionsByWeek(startOfWeekDate: String!):[Session]
     getTemplatesByCoach(coachId: ID!): [SessionTemplate]
 }
 
 input SessionInput {
     sessionType: String
     location: String
-    time: String
+    time: LocalDateTime
     isBooked: Boolean!
     isPaidFor: Boolean!
     isCompleted: Boolean!
@@ -57,15 +66,23 @@ input StudentInput {
 }
 
 input SessionTemplateInput {
-    templateName: String
-    coach: String
-    sessionTemplates: [SessionInput]
+    sessionType: String
+    location: String
+    dayOfTheWeek: Int
+    time: LocalDateTime
 }
 
+input SevenDaySessionTemplateInput {
+    templateName: String
+    coach: String
+    sessionTemplates: [SessionTemplateInput]
+}
+
+
 type Mutation {
-    addStudent(input: StudentInput!): Student
-    createSession(input: SessionInput!): Session
-    createSevenDaySessionTemplate(input: SessionTemplateInput!, weekStartDate: LocalDateTime): SessionTemplate
-    createSevenDaySessionTemplateWithoutSessions(input: SessionTemplateInput!): SessionTemplate
-    updateSevenDaySessionTemplate(templateId: ID!, input: SessionTemplateInput!): SessionTemplate
+    addStudent(studentInput: StudentInput!): Student
+    createSession(sessionInput: SessionInput!): Session
+    createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime): SevenDaySessionTemplate
+    createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
+    updateSevenDaySessionTemplate(templateId: ID!, input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
 }

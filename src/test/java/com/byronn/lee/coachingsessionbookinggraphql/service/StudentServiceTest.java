@@ -78,7 +78,7 @@ public class StudentServiceTest {
     @Test
     public void testAddStudent() {
         // Arrange
-        StudentInput studentInput = new StudentInput(2L,"John", "Doe", "1234567890", true);
+        StudentInput studentInput = new StudentInput("John", "Doe", "1234567890", true);
 
         Student expectedStudent = new Student();
         expectedStudent.setFirstName("John");

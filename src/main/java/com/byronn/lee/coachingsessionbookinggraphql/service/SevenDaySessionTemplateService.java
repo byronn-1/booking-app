@@ -38,25 +38,36 @@ public class SevenDaySessionTemplateService {
     }
 
     @Transactional
-    public SevenDaySessionTemplate createSevenDaySessionsTemplate(SevenDaySessionTemplateInput data) {
+    public SevenDaySessionTemplate createSevenDaySessionsTemplate(SevenDaySessionTemplateInput data, LocalDate weekStartDate) {
 
         if (data == null) {
             throw new IllegalArgumentException("Input cannot be null");
         }
+
         SevenDaySessionTemplate sevenDayTemplate = new SevenDaySessionTemplate();
+
         sevenDayTemplate.setTemplateName(data.getTemplateName());
         sevenDayTemplate.setCoach(data.getCoach());
 
         SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
-        LocalDate weekStartDate = LocalDate.now();
+
 
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
+
             // Create and save SessionTemplate entities
             SessionTemplate sessionTemplate = new SessionTemplate();
+
             sessionTemplate.setSessionType(sessionTemplateInput.getSessionType());
             sessionTemplate.setLocation(sessionTemplateInput.getLocation());
             sessionTemplate.setTime(sessionTemplateInput.getTime());
-            sessionTemplate.setSevenDaySessionTemplate(savedTemplate);
+            sessionTemplate.setDayOfTheWeek(sessionTemplateInput.getDayOfTheWeek());
+            sessionTemplate.setSevenDaySessionTemplateId(savedTemplate.getId());
+//            sessionTemplate.setSevenDaySessionTemplate(savedTemplate);
+//            sessionTemplateService.saveSessionTemplate(sessionTemplate);
+
+//            SevenDaySessionTemplate associatedTemplate = sevenDaySessionRepository.findById(sessionTemplateInput.getSevenDayTemplateId()).orElse(null);
+//            sessionTemplate.setSevenDaySessionTemplate(associatedTemplate);
+
             sessionTemplateService.saveSessionTemplate(sessionTemplate);
 
             // Create and save Session entities
@@ -68,21 +79,26 @@ public class SevenDaySessionTemplateService {
     }
 
     private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, SevenDaySessionTemplate sevenDayTemplate, LocalDate weekStartDate) {
+
         Session session = new Session();
         session.setSessionType(sessionTemplateInput.getSessionType());
         session.setLocation(sessionTemplateInput.getLocation());
 
-        // Extract the time part from the LocalDateTime
-        LocalTime sessionTime = sessionTemplateInput.getTime().toLocalTime();
+        // Convert the day of the week to the correct LocalDate based on the weekStartDate
+        LocalDate sessionDate = calculateSessionDate(weekStartDate, sessionTemplateInput.getDayOfTheWeek());
 
-        // Calculate the date and time for the session
-        LocalDate sessionDate = calculateSessionDate(weekStartDate, sessionTemplateInput.getSessionTemplate().getDayOfTheWeek());
-        LocalDateTime sessionDateTime = LocalDateTime.of(sessionDate, sessionTime);
+        // Combine the date with the time from the input
+        LocalDateTime sessionDateTime = LocalDateTime.of(sessionDate, sessionTemplateInput.getTime().toLocalTime());
         session.setTime(sessionDateTime);
 
-        // `isBooked`, `isPaidFor`, etc., set them
-        // ...
+        // Assign default values for booking, payment, and completion status
+        session.setIsBooked(false);
+        session.setIsPaidFor(false);
+        session.setIsCompleted(false);
 
+        sessionRepository.save(session);
+
+        // Return the populated Session object
         return session;
     }
 
@@ -103,14 +119,18 @@ public class SevenDaySessionTemplateService {
         // Iterate through the list of SessionTemplateInput objects
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
 
-
             // Create a new SessionTemplate entity for each SessionTemplateInput
             SessionTemplate sessionTemplate = new SessionTemplate();
 
             sessionTemplate.setSessionType(sessionTemplateInput.getSessionType());
             sessionTemplate.setLocation(sessionTemplateInput.getLocation());
             sessionTemplate.setTime(sessionTemplateInput.getTime());
-            sessionTemplate.setSevenDaySessionTemplate(savedTemplate); // Associate with the seven-day template
+            sessionTemplate.setSevenDaySessionTemplateId(savedTemplate.getId()); // Associate with the seven-day template
+
+            // Fetch and set the SevenDaySessionTemplate
+//            sevenDaySessionRepository.findById(sessionTemplateInput.getSevenDayTemplateId())
+//                    .orElseThrow(() -> new RuntimeException("SevenDaySessionTemplate not found"));
+//            sessionTemplate.setSevenDaySessionTemplate(sevenDayTemplate);
 
             // Save the session template to the repository
             // Assuming you have a method in SessionTemplateService to save a SessionTemplate
@@ -144,7 +164,9 @@ public class SevenDaySessionTemplateService {
 
         for (SessionTemplateInput updatedSessionInput : updatedSessions) {
             Optional<SessionTemplate> existingSessionOpt = currentSessions.stream()
-                    .filter(session -> session.getId().equals(updatedSessionInput.getSessionTemplate().getId()))
+                    .filter(session -> session.getSessionType().equals(updatedSessionInput.getSessionType()) &&
+                            session.getLocation().equals(updatedSessionInput.getLocation()) &&
+                            session.getDayOfTheWeek() == updatedSessionInput.getDayOfTheWeek())
                     .findFirst();
 
             if (existingSessionOpt.isPresent()) {
