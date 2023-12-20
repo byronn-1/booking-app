@@ -90,7 +90,18 @@ public class SessionTemplate {
         this.time = time;
     }
 
-/*    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {
+    @Override
+    public String toString() {
+        return "SessionTemplate{" +
+                "id=" + id +
+                ", sessionType='" + sessionType + '\'' +
+                ", location='" + location + '\'' +
+                ", dayOfTheWeek=" + dayOfTheWeek +
+                ", time=" + time +
+                ", sevenDaySessionTemplateId=" + sevenDaySessionTemplateId +
+                '}';
+    }
+    /*    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {
         this.sevenDaySessionTemplate = sevenDaySessionTemplate;
     }*/
 }

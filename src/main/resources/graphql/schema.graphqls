@@ -28,7 +28,7 @@ type SessionTemplate {
     location: String
     dayOfTheWeek: Int
     time: LocalDateTime
-    sevenDaySessionTemplate: ID!
+    sevenDaySessionTemplateId: ID!
 }
 
 type SevenDaySessionTemplate {

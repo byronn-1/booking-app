@@ -12,6 +12,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.TemporalAdjusters;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -51,6 +52,10 @@ public class SevenDaySessionTemplateService {
 
         SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
 
+        // Initialize the sessionTemplates list if it's null
+        if (sevenDayTemplate.getSessionTemplates() == null) {
+            sevenDayTemplate.setSessionTemplates(new ArrayList<>());
+        }
 
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
 
@@ -62,23 +67,21 @@ public class SevenDaySessionTemplateService {
             sessionTemplate.setTime(sessionTemplateInput.getTime());
             sessionTemplate.setDayOfTheWeek(sessionTemplateInput.getDayOfTheWeek());
             sessionTemplate.setSevenDaySessionTemplateId(savedTemplate.getId());
-//            sessionTemplate.setSevenDaySessionTemplate(savedTemplate);
-//            sessionTemplateService.saveSessionTemplate(sessionTemplate);
 
-//            SevenDaySessionTemplate associatedTemplate = sevenDaySessionRepository.findById(sessionTemplateInput.getSevenDayTemplateId()).orElse(null);
-//            sessionTemplate.setSevenDaySessionTemplate(associatedTemplate);
 
             sessionTemplateService.saveSessionTemplate(sessionTemplate);
 
+            //add the saved seven day session template id to the sessionTemplate
+            sevenDayTemplate.getSessionTemplates().add(sessionTemplate);
+
             // Create and save Session entities
-            Session session = createSessionFromTemplate(sessionTemplateInput, savedTemplate, weekStartDate);
+            Session session = createSessionFromTemplate(sessionTemplateInput, weekStartDate);
             sessionRepository.save(session);
         }
-
         return savedTemplate;
     }
 
-    private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, SevenDaySessionTemplate sevenDayTemplate, LocalDate weekStartDate) {
+    private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, LocalDate weekStartDate) {
 
         Session session = new Session();
         session.setSessionType(sessionTemplateInput.getSessionType());

@@ -18,8 +18,10 @@ public class SevenDaySessionTemplate {
     @Column(name = "coach")
     private String coach;
 
-    @OneToMany(mappedBy = "sevenDaySessionTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SessionTemplate> sessionTemplates;
+    private transient List<SessionTemplate> sessionTemplates;
+
+/*    @OneToMany(mappedBy = "sevenDaySessionTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<SessionTemplate> sessionTemplates;*/
 
     public SevenDaySessionTemplate(Long id, String templateName, String coach, List<SessionTemplate> sessionTemplates) {
         this.id = id;
@@ -32,6 +34,14 @@ public class SevenDaySessionTemplate {
 
     }
 
+    public List<SessionTemplate> getSessionTemplates() {
+        return sessionTemplates;
+    }
+
+    public void setSessionTemplates(List<SessionTemplate> sessionTemplates) {
+        this.sessionTemplates = sessionTemplates;
+    }
+
     public void setTemplateName(String templateName) {
         this.templateName = templateName;
     }
@@ -40,16 +50,14 @@ public class SevenDaySessionTemplate {
         this.coach = coach;
     }
 
-    public void setSessionTemplates(List<SessionTemplate> sessionTemplates) {
-        this.sessionTemplates = sessionTemplates;
-    }
+
 
     public Long getId() {
         return id;
     }
-    public List<SessionTemplate> getSessionTemplates() {
+/*    public List<SessionTemplate> getSessionTemplates() {
         return sessionTemplates;
-    }
+    }*/
 
     public String getTemplateName() {
         return templateName;
@@ -57,5 +65,15 @@ public class SevenDaySessionTemplate {
 
     public String getCoach() {
         return coach;
+    }
+
+    @Override
+    public String toString() {
+        return "SevenDaySessionTemplate{" +
+                "id=" + id +
+                ", templateName='" + templateName + '\'' +
+                ", coach='" + coach + '\'' +
+                ", sessionTemplates=" + sessionTemplates +
+                '}';
     }
 }
