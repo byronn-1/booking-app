@@ -9,6 +9,12 @@ import { StrictMode } from 'react'
   worker.start();
  }
 
+/*  // src/main.js or src/main.ts
+if (import.meta.env.VITE_MSW_ENABLED === 'true') {
+  const { worker } = require('./mocks');
+  worker.start();
+} */
+
 if (process.env.NODE_ENV === 'development') {
    callFunction()
 

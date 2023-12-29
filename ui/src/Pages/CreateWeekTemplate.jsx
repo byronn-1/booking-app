@@ -1,44 +1,37 @@
 import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
-import {
-  Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading
-} from '@chakra-ui/react';
+import { Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading } from '@chakra-ui/react';
 import { useNavigate } from 'react-router-dom';
 import BackButton from '../_shared/Components/Buttons/BackButton';
 
-// Validation Schema using Yup
 const WeekTemplateSchema = Yup.object().shape({
   templateName: Yup.string().required('Required'),
   coachName: Yup.string().required('Required'),
 });
 
 const CreateWeekTemplate = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   const initialValues = {
     templateName: '',
     coachName: '',
   };
 
   const handleSubmit = (values, actions) => {
-    console.log(values);
-    actions.setSubmitting(false);
+    navigate('/create-week-sessions-template', { state: { templateName: values.templateName, coachName: values.coachName } });
+    actions.setSubmitting(false); 
   };
 
   return (
     <Box p={4}>
       <Flex justify="space-between" mb={4}>
-      <BackButton/>
+        <BackButton />
         <Heading size="md">Create Template</Heading>
-        <Button size="sm" onClick={() => navigate('/create-week-sessions-template')}>Save & Add Sessions</Button>
+        <Button size="sm" type="submit" form="week-template-form">Save & Add Sessions</Button>
       </Flex>
-      <Formik
-        initialValues={initialValues}
-        validationSchema={WeekTemplateSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ errors, touched, isSubmitting }) => (
-          <Form>
+      <Formik initialValues={initialValues} validationSchema={WeekTemplateSchema} onSubmit={handleSubmit}>
+        {({ errors, touched }) => (
+          <Form id="week-template-form">
             <FormControl isInvalid={errors.templateName && touched.templateName}>
               <FormLabel htmlFor="templateName">Template Name</FormLabel>
               <Field as={Input} id="templateName" name="templateName" />
@@ -50,10 +43,6 @@ const CreateWeekTemplate = () => {
               <Field as={Input} id="coachName" name="coachName" />
               <FormErrorMessage>{errors.coachName}</FormErrorMessage>
             </FormControl>
-
-            <Button mt={4} colorScheme="blue" isLoading={isSubmitting} type="submit">
-              Submit
-            </Button>
           </Form>
         )}
       </Formik>

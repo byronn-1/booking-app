@@ -2,6 +2,7 @@ package com.byronn.lee.coachingsessionbookinggraphql.service;
 
 import com.byronn.lee.coachingsessionbookinggraphql.entity.*;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionRepository;
+import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionTemplateRepository;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SevenDaySessionTemplateRepository;
 
 import org.springframework.stereotype.Service;
@@ -26,16 +27,26 @@ public class SevenDaySessionTemplateService {
     private final SevenDaySessionTemplateRepository sevenDaySessionRepository;
     private final SessionTemplateService sessionTemplateService;
     private final SessionRepository sessionRepository;
-    public SevenDaySessionTemplateService(SevenDaySessionTemplateRepository sevenDaySessionRepository,SessionRepository sessionRepository, SessionTemplateService sessionTemplateService){
+    private final SessionTemplateRepository sessionTemplateRepository;
+    public SevenDaySessionTemplateService(SevenDaySessionTemplateRepository sevenDaySessionRepository,SessionRepository sessionRepository, SessionTemplateService sessionTemplateService, SessionTemplateRepository sessionTemplateRepository){
         this.sevenDaySessionRepository = sevenDaySessionRepository;
         this.sessionRepository = sessionRepository;
         this.sessionTemplateService = sessionTemplateService;
+        this.sessionTemplateRepository = sessionTemplateRepository;
     }
 
 
     @Transactional
     public List<SevenDaySessionTemplate> getAllSevenDaySessionTemplates(){
-        return sevenDaySessionRepository.findAll();
+        List<SevenDaySessionTemplate> sevenDaySessionTemplates = sevenDaySessionRepository.findAll();
+
+        for (SevenDaySessionTemplate template : sevenDaySessionTemplates) {
+            // Fetch SessionTemplates associated with the current SevenDaySessionTemplate
+            List<SessionTemplate> sessionTemplates = sessionTemplateRepository.findAllBySevenDaySessionTemplateId(template.getId());
+            template.setSessionTemplates(sessionTemplates);
+        }
+
+        return sevenDaySessionTemplates;
     }
 
     @Transactional
@@ -53,9 +64,7 @@ public class SevenDaySessionTemplateService {
         SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
 
         // Initialize the sessionTemplates list if it's null
-        if (sevenDayTemplate.getSessionTemplates() == null) {
-            sevenDayTemplate.setSessionTemplates(new ArrayList<>());
-        }
+
 
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
 
@@ -114,11 +123,23 @@ public class SevenDaySessionTemplateService {
 
     @Transactional
     public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(SevenDaySessionTemplateInput data) {
+
+        if (data == null) {
+            throw new IllegalArgumentException("Input cannot be null");
+        }
+
+
         SevenDaySessionTemplate sevenDayTemplate = new SevenDaySessionTemplate();
+
         sevenDayTemplate.setTemplateName(data.getTemplateName());
         sevenDayTemplate.setCoach(data.getCoach());
 
         SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
+
+        if (sevenDayTemplate.getSessionTemplates() == null) {
+            sevenDayTemplate.setSessionTemplates(new ArrayList<>());
+        }
+
         // Iterate through the list of SessionTemplateInput objects
         for (SessionTemplateInput sessionTemplateInput : data.getSessionTemplates()) {
 
@@ -138,6 +159,7 @@ public class SevenDaySessionTemplateService {
             // Save the session template to the repository
             // Assuming you have a method in SessionTemplateService to save a SessionTemplate
             sessionTemplateService.saveSessionTemplate(sessionTemplate);
+            sevenDayTemplate.getSessionTemplates().add(sessionTemplate);
         }
         // Only save the template, without creating sessions
         return sevenDaySessionRepository.save(sevenDayTemplate);

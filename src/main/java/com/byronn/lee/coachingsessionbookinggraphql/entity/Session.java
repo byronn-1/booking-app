@@ -97,4 +97,18 @@ public class Session {
     public void setStudent(Student student) {
         this.student = student;
     }
+
+    @Override
+    public String toString() {
+        return "Session{" +
+                "id=" + id +
+                ", sessionType='" + sessionType + '\'' +
+                ", location='" + location + '\'' +
+                ", time=" + time +
+                ", isBooked=" + isBooked +
+                ", isPaidFor=" + isPaidFor +
+                ", isCompleted=" + isCompleted +
+                ", student=" + student +
+                '}';
+    }
 }

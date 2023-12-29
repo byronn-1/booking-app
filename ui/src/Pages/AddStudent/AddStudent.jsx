@@ -2,16 +2,19 @@ import React from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {
-  Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading
+  Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading, Switch
 } from '@chakra-ui/react';
-import BackButton from '../_shared/Components/Buttons/BackButton';
+import BackButton from '../../_shared/Components/Buttons/BackButton';
+import { addStudentService } from './service';
+import { useMutation } from '@apollo/client';
+import { ADD_STUDENT_MUTATION } from '../../_graphQL/mutations/StudentMutations';
 
 // Validation Schema using Yup
 const StudentSchema = Yup.object().shape({
   firstName: Yup.string().required('Required'),
   lastName: Yup.string().required('Required'),
   phoneNumber: Yup.string().matches(/^[0-9]+$/, 'Phone number is not valid').required('Required'),
-  email: Yup.string().email('Invalid email').required('Required'),
+  isWaiverSigned: Yup.boolean().required('Required'),
 });
 
 const AddStudent = () => {
@@ -20,14 +23,34 @@ const AddStudent = () => {
     firstName: '',
     lastName: '',
     phoneNumber: '',
-    email: '',
+    isWaiverSigned: false,
   };
 
-  // Function to handle form submission
+  const [addStudentMutation, { data, loading, error }] = useMutation(ADD_STUDENT_MUTATION);
+
+
   const handleSubmit = (values, actions) => {
-    console.log(values);
-    actions.setSubmitting(false);
+    addStudentMutation({
+      variables: {
+        input: {
+          firstName: values.firstName,
+          lastName: values.lastName,
+          phoneNo: values.phoneNumber, // Ensure the field names match your GraphQL schema
+          isWaiverSigned: values.isWaiverSigned,
+          // Add other necessary fields
+        }
+      }
+    }).then(response => {
+      // Handle response
+      console.log('Student added:', response.data.addStudent);
+      actions.setSubmitting(false);
+    }).catch(e => {
+      console.error('Error in mutation:', e);
+      actions.setSubmitting(false);
+    });
   };
+  if (loading) return 'Submitting...';
+  if (error) return `Submission error! ${error.message}`;
 
   return (
     <Box p={4}>
@@ -41,7 +64,7 @@ const AddStudent = () => {
         validationSchema={StudentSchema}
         onSubmit={handleSubmit}
       >
-        {({ errors, touched, isSubmitting }) => (
+        {({ errors, touched, isSubmitting, setFieldValue, values}) => (
           <Form>
             <FormControl isInvalid={errors.firstName && touched.firstName}>
               <FormLabel htmlFor="firstName">First Name</FormLabel>
@@ -61,10 +84,10 @@ const AddStudent = () => {
               <FormErrorMessage>{errors.phoneNumber}</FormErrorMessage>
             </FormControl>
 
-            <FormControl isInvalid={errors.email && touched.email}>
-              <FormLabel htmlFor="email">Email</FormLabel>
-              <Field as={Input} id="email" name="email" />
-              <FormErrorMessage>{errors.email}</FormErrorMessage>
+            <FormControl isInvalid={errors.isWaiverSigned && touched.isWaiverSigned}>
+              <FormLabel htmlFor="isWaiverSigned">Waiver Signed</FormLabel>
+              <Switch id="isWaiverSigned" name="isWaiverSigned" isChecked={values.isWaiverSigned} onChange={() => setFieldValue('isWaiverSigned', !values.isWaiverSigned)} />
+              <FormErrorMessage>{errors.isWaiverSigned}</FormErrorMessage>
             </FormControl>
 
             <Button mt={4} colorScheme="blue" isLoading={isSubmitting} type="submit">

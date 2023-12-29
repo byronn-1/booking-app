@@ -6,5 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface SessionTemplateRepository  extends JpaRepository<SessionTemplate, Long>  {
-    List<SessionTemplate> findAllBySevenDaySessionTemplateId(Long sevenDaySessionTemplateId);
+    List<SessionTemplate> findAllBySevenDaySessionTemplateId(Long id);
 }

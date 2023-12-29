@@ -42,6 +42,7 @@ type Query {
     allSessions: [Session]
     getAllStudents: [Student]
     getAllSessionTemplates: [SessionTemplate]
+    getAllSevenDaySessionTemplates:[SevenDaySessionTemplate]
     getSessionsByStudentFirstName(firstName: String!): [Session]
     getSessionsByDay(date: String!): [Session]
     getSessionsByWeek(startOfWeekDate: String!):[Session]
@@ -53,8 +54,8 @@ input SessionInput {
     location: String
     time: LocalDateTime
     isBooked: Boolean!
-    isPaidFor: Boolean!
-    isCompleted: Boolean!
+    isPaidFor: Boolean
+    isCompleted: Boolean
     studentId: ID
 }
 

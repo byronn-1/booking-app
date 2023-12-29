@@ -5,11 +5,11 @@ import {
   } from "react-router-dom";
   import FrontPage from './src/FrontPage.jsx'
 import Bookings from "./src/Pages/Bookings.jsx";
-import AddStudent from "./src/Pages/AddStudent.jsx";
 import WeekTemplates from "./src/Pages/WeekTemplates.jsx";
 import CreateWeekTemplate from "./src/Pages/CreateWeekTemplate.jsx";
 import CreateSession from "./src/Pages/CreateSession.jsx";
 import CreateWeekSessionsTemplate from "./src/Pages/CreateWeekSessionsTemplate.jsx";
+import AddStudent from "./src/Pages/AddStudent/AddStudent.jsx";
   
   export const router = createBrowserRouter(
     createRoutesFromElements(

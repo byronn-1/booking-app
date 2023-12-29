@@ -36,6 +36,8 @@ public class SessionService {
 
     @Transactional
     public Session createSession(SessionInput sessionInput){
+        System.out.println("is called");
+
         if (sessionInput == null) {
             // Handle or throw an exception based on your application's requirements
             throw new IllegalArgumentException("Session input cannot be null");
@@ -53,8 +55,9 @@ public class SessionService {
         newSession.setIsBooked(sessionInput.getIsBooked());
         newSession.setIsPaidFor(sessionInput.getIsPaidFor());
         newSession.setIsCompleted(sessionInput.getIsCompleted());
-
         try {
+
+
             return sessionRepository.save(newSession);
         } catch (Exception e) {
             throw new RuntimeException("Error saving session to the repository", e);

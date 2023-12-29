@@ -27,16 +27,18 @@ public class StudentService {
     @Transactional
     public Student addStudent(@org.jetbrains.annotations.NotNull StudentInput studentInput){
         Student student = new Student();
-
-
         student.setFirstName(studentInput.getFirstName());
         student.setLastName(studentInput.getLastName());
         student.setPhoneNo(studentInput.getPhoneNo());
         student.setIsWaiverSigned(studentInput.getIsWaiverSigned());
-        Student savedStudent = studentRepository.save(student);
-        logger.info("Saved student ID: {}", savedStudent.getId());
 
-        logger.info("Saving Student: {}", student);
-        return studentRepository.save(student);
+        student = studentRepository.save(student);
+        logger.info("Saved student ID: {}", student.getId());
+
+        // Refetch the student to initialize lazy-loaded collections
+        Student refetchedStudent = studentRepository.findById(student.getId()).orElse(null);
+
+        logger.info("Refetched Student: {}", refetchedStudent);
+        return refetchedStudent;
     }
 }
