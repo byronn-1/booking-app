@@ -6,7 +6,7 @@ import { GET_ALL_SESSION_TEMPLATES } from '../_graphQL/querys/templateQueries';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { startOfWeek, endOfWeek, addDays, format, addWeeks, subWeeks } from 'date-fns';
+import { startOfWeek, endOfWeek, addDays, format, addWeeks, subWeeks, getHours } from 'date-fns';
 import { registerLocale } from "react-datepicker";
 import enGb from 'date-fns/locale/en-GB';
 registerLocale('en-GB', enGb);
@@ -115,8 +115,12 @@ const Bookings = ({ sessions }) => {
     <VStack spacing={4} align="stretch">
       <Flex justify="space-between" p={2} bg="blue.200">
       <BackButton/>
-        <Heading size="sm">Coach Name - Month/Year</Heading>
-        <Button size="xs">Location</Button>
+      <Button size="xs">Location</Button>
+      {selectedTemplate ? (
+      <Heading size="sm">{selectedTemplate.coach} - {selectedTemplate.templateName}</Heading>
+    ) : (
+      <Heading size="sm">Select a Template</Heading>
+    )}
         <Select w="110pxs" placeholder="Select template" onChange={handleTemplateChange}>
           {data?.getAllSevenDaySessionTemplates.map((template) => (
             <option key={template.id} value={template.id}>
@@ -127,14 +131,14 @@ const Bookings = ({ sessions }) => {
         <Button size="xs" onClick={handleApplyTemplate}>Apply Template</Button>
       </Flex>
       <Flex justify="space-between" align="center">
-        <Button onClick={handlePrevWeek}>&lt; Prev Week</Button>
+        <Button size="sm" w="120px" onClick={handlePrevWeek} mr="30px">&lt; Prev Week</Button>
         <DatePicker 
           selected={selectedDate} 
           onChange={(date) => setSelectedDate(date)} 
           dateFormat="dd-MM-yyyy" // Or any format you prefer
           locale="en-GB"
         />
-        <Button onClick={handleNextWeek}>Next Week &gt;</Button>
+        <Button size="sm"  w="120px" onClick={handleNextWeek}>Next Week &gt;</Button>
       </Flex>
       <Flex overflowX="scroll">
         {weekDays?.map(({day, date}, index) => (

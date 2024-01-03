@@ -5,9 +5,9 @@ import {
   Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading, Switch
 } from '@chakra-ui/react';
 import BackButton from '../../_shared/Components/Buttons/BackButton';
-import { addStudentService } from './service';
+// import { addStudentService } from './service';
 import { useMutation } from '@apollo/client';
-import { ADD_STUDENT_MUTATION } from '../../_graphQL/mutations/StudentMutations';
+import { ADD_STUDENT_MUTATION } from '../../_graphQL/mutations/studentMutations';
 
 // Validation Schema using Yup
 const StudentSchema = Yup.object().shape({
