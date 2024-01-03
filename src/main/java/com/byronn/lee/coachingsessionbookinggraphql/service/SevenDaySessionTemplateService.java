@@ -35,7 +35,35 @@ public class SevenDaySessionTemplateService {
         this.sessionTemplateRepository = sessionTemplateRepository;
     }
 
+    @Transactional
+    public List<Session> createSessionsFromId(Long templateId,LocalDate weekStartDate){
+        // Fetch the SevenDaySessionTemplate
+        Optional<SevenDaySessionTemplate> templateOpt = sevenDaySessionRepository.findById(templateId);
+        if (!templateOpt.isPresent()) {
+            throw new IllegalArgumentException("Template with ID " + templateId + " not found");
+        }
+        SevenDaySessionTemplate sevenDayTemplate = templateOpt.get();
 
+        List<Session> createdSessions = new ArrayList<>();
+
+        // Loop over each SessionTemplate in the SevenDaySessionTemplate
+        for (SessionTemplate sessionTemplate : sevenDayTemplate.getSessionTemplates()) {
+            // Create a session from the session template
+            Session session = createSessionFromTemplate(sessionTemplate, weekStartDate);
+
+            // Optionally, set any necessary references or foreign keys, e.g., link session to sevenDayTemplate
+            // session.setSevenDaySessionTemplate(sevenDayTemplate);
+
+            // Save the session
+            Session savedSession = sessionRepository.save(session);
+
+            // Add the saved session to the list
+            createdSessions.add(savedSession);
+        }
+
+        // Return the list of created sessions
+        return createdSessions;
+    }
     @Transactional
     public List<SevenDaySessionTemplate> getAllSevenDaySessionTemplates(){
         List<SevenDaySessionTemplate> sevenDaySessionTemplates = sevenDaySessionRepository.findAll();
@@ -84,13 +112,31 @@ public class SevenDaySessionTemplateService {
             sevenDayTemplate.getSessionTemplates().add(sessionTemplate);
 
             // Create and save Session entities
-            Session session = createSessionFromTemplate(sessionTemplateInput, weekStartDate);
+            Session session = createSessionFromTemplateInput(sessionTemplateInput, weekStartDate);
             sessionRepository.save(session);
         }
         return savedTemplate;
     }
+    private Session createSessionFromTemplate(SessionTemplate sessionTemplate, LocalDate weekStartDate) {
+        // Create a Session entity based on the SessionTemplate entity
+        Session session = new Session();
+        session.setSessionType(sessionTemplate.getSessionType());
+        session.setLocation(sessionTemplate.getLocation());
 
-    private Session createSessionFromTemplate(SessionTemplateInput sessionTemplateInput, LocalDate weekStartDate) {
+        // Calculate the date and time for the session
+        LocalDate sessionDate = calculateSessionDate(weekStartDate, sessionTemplate.getDayOfTheWeek());
+        LocalDateTime sessionDateTime = LocalDateTime.of(sessionDate, sessionTemplate.getTime().toLocalTime());
+        session.setTime(sessionDateTime);
+
+        // Set default values for booking, payment, and completion status
+        session.setIsBooked(false);
+        session.setIsPaidFor(false);
+        session.setIsCompleted(false);
+
+        // Return the populated Session object
+        return session;
+    }
+    private Session createSessionFromTemplateInput(SessionTemplateInput sessionTemplateInput, LocalDate weekStartDate) {
 
         Session session = new Session();
         session.setSessionType(sessionTemplateInput.getSessionType());

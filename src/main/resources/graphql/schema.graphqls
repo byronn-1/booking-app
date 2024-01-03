@@ -83,6 +83,7 @@ input SevenDaySessionTemplateInput {
 type Mutation {
     addStudent(studentInput: StudentInput!): Student
     createSession(sessionInput: SessionInput!): Session
+    createSessionsFromId(templateId: ID!, weekStartDate: LocalDateTime!): [Session]
     createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime): SevenDaySessionTemplate
     createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
     updateSevenDaySessionTemplate(templateId: ID!, input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate

@@ -59,6 +59,7 @@ public class SevenDaySessionTemplate {
         return sessionTemplates;
     }*/
 
+
     public String getTemplateName() {
         return templateName;
     }
