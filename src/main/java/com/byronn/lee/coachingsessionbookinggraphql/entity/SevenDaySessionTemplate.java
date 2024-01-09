@@ -2,6 +2,7 @@ package com.byronn.lee.coachingsessionbookinggraphql.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -23,11 +24,11 @@ public class SevenDaySessionTemplate {
 /*    @OneToMany(mappedBy = "sevenDaySessionTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionTemplate> sessionTemplates;*/
 
-    public SevenDaySessionTemplate(Long id, String templateName, String coach, List<SessionTemplate> sessionTemplates) {
+    public SevenDaySessionTemplate(Long id, String templateName, String coach ) {
         this.id = id;
         this.templateName = templateName;
         this.coach = coach;
-        this.sessionTemplates = sessionTemplates;
+        this.sessionTemplates = new ArrayList<>();
     }
 
     public SevenDaySessionTemplate() {
@@ -50,15 +51,9 @@ public class SevenDaySessionTemplate {
         this.coach = coach;
     }
 
-
-
     public Long getId() {
         return id;
     }
-/*    public List<SessionTemplate> getSessionTemplates() {
-        return sessionTemplates;
-    }*/
-
 
     public String getTemplateName() {
         return templateName;

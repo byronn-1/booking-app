@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SessionTemplateRepository  extends JpaRepository<SessionTemplate, Long>  {
     List<SessionTemplate> findAllBySevenDaySessionTemplateId(Long id);
+    List<SessionTemplate> findBySevenDaySessionTemplateId(Long sevenDaySessionTemplateId);
 }

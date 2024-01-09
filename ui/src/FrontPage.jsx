@@ -7,13 +7,12 @@ const FrontPage = () => {
     const navigate = useNavigate();
 
   return (
-    <Flex direction={["row","column"]} alignItems="center">
-      <Button w="180px" onClick={() => navigate('/bookings')}>Bookings</Button>
-      <Button w="180px" onClick={() => navigate('/add-student')}>Add Student</Button>
-      <Button w="180px" onClick={() => navigate('/create-session')}>Create Session</Button>
-      <Button w="180px" onClick={() => navigate('/week-templates')}>Week Templates</Button>
-      <Button w="180px" onClick={() => navigate('/create-week-template')}>Create Week Template</Button>
-
+    <Flex direction={["column","column"]} alignItems="center" mt="40px">
+      <Button w="200px" mt="25px" onClick={() => navigate('/bookings')}>Bookings</Button>
+      <Button w="200px" mt="25px" onClick={() => navigate('/add-student')}>Add Student</Button>
+      <Button w="200px" mt="25px" onClick={() => navigate('/create-session')}>Create Session</Button>
+      <Button w="200px" mt="25px" onClick={() => navigate('/week-templates')}>Week Templates</Button>
+      <Button w="200px" mt="25px" onClick={() => navigate('/create-week-template')}>Create Week Template</Button>
     </Flex>
   )
 }

@@ -61,7 +61,6 @@ const CreateSession = () => {
       <Flex justify="space-between" mb={4}>
       <BackButton/>
         <Heading size="md">Create Session</Heading>
-        <Button size="sm">Save</Button>
       </Flex>
       <Formik
         initialValues={initialValues}

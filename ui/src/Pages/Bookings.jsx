@@ -1,23 +1,30 @@
 import React, {useEffect, useState} from 'react';
 import { Box, Flex, Text, VStack, Heading, Button, Divider, Select } from '@chakra-ui/react';
 import BackButton from '../_shared/Components/Buttons/BackButton';
-import { useMutation, useQuery } from '@apollo/client';
-import { GET_ALL_SESSION_TEMPLATES } from '../_graphQL/querys/templateQueries';
 
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { startOfWeek, endOfWeek, addDays, format, addWeeks, subWeeks, getHours } from 'date-fns';
 import { registerLocale } from "react-datepicker";
 import enGb from 'date-fns/locale/en-GB';
+
 registerLocale('en-GB', enGb);
-import { CREATE_SEVEN_DAY_SESSION_TEMPLATE } from '../_graphQL/mutations/templateMutations';
 
-// Inside your component
-const daysOfWeek = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+import { useMutation, useQuery } from '@apollo/client';
+import { GET_ALL_SESSION_TEMPLATES } from '../_graphQL/querys/templateQueries';
+import { CREATE_SESSIONS_FROM_TEMPLATE_MUTATION } from '../_graphQL/mutations/sessionMutations';
+import { GET_ALL_SESSIONS } from '../_graphQL/querys/sessionQueries';
 
-const Bookings = ({ sessions }) => {
-  const { data, loading, error } = useQuery(GET_ALL_SESSION_TEMPLATES);
-  const [createTemplate, { data: mutationData, loading: mutationLoading, error: mutationError }] = useMutation(CREATE_SEVEN_DAY_SESSION_TEMPLATE);
+
+const Bookings = () => {
+  const { data, loading, error, refetch } = useQuery(GET_ALL_SESSION_TEMPLATES);
+  const { data: sessionsData, loading: sessionsLoading, error:sessionsError } = useQuery(GET_ALL_SESSIONS);
+  
+  const [isPortrait, setIsPortrait] = useState(window.innerWidth < window.innerHeight);
+
+  const [localSessions, setLocalSessions] = useState([]);
+  const [applySessionsMutation, { loading: applyingSessions, error: applySessionsError }] = useMutation(CREATE_SESSIONS_FROM_TEMPLATE_MUTATION);
+
   const [templates, setTemplates] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date());
   
@@ -31,34 +38,42 @@ const Bookings = ({ sessions }) => {
     setSelectedTemplate(foundTemplate);
   };
   
-
-  useEffect(() => {
-    setWeekDays(getWeekDays(selectedDate));
-  }, [selectedDate]);
-  
-
   // Function to render sessions for a specific day and time
   const renderSessions = (dayIndex, isMorning) => {
+
     const start = startOfWeek(selectedDate, { weekStartsOn: 1 });
-    const targetDay = addDays(start, dayIndex);
-  
-    return sessions?.filter(session => {
+
+    const targetDay = addDays(start, dayIndex -1);
+    return localSessions?.filter(session => {
+      if (!session.time || isNaN(new Date(session.time).getTime())) {
+        console.error('Invalid session time:', session.time);
+        return false;
+      }
+
       const sessionDate = new Date(session.time);
-      const dayMatch = format(sessionDate, 'yyyy-MM-dd') === format(targetDay, 'yyyy-MM-dd');
-      const hour = getHours(sessionDate);
+
+      let sessionDayOfWeek = sessionDate.getDay();
+      sessionDayOfWeek = sessionDayOfWeek === 0 ? 7 : sessionDayOfWeek; // Convert Sunday from 0 to 7
+
+      const dayMatch = format(sessionDate, 'yyyy-MM-dd') === format(targetDay, 'yyyy-MM-dd')
+      const hour = sessionDate.getHours()
       const isMorningSession = hour < 12;
+
       return dayMatch && isMorning === isMorningSession;
-    }).map(session => (
+    }).map(session => {
+      const sessionTime = format(new Date(session.time), 'HH:mm');
+      return(
       <Text key={session.id} fontSize="sm">
-        {`${session.sessionType} - ${session.location}`}
+        {`${sessionTime} : ${session.sessionType} - ${session.location}`}
       </Text>
-    ));
+    )});
   };
 
   const getWeekDays = (selectedDate) => {
-    const start = startOfWeek(selectedDate, { weekStartsOn: 1 }); // Customize weekStartsOn based on your locale
+    const start = startOfWeek(selectedDate, { weekStartsOn: 1 }); // Customize weekStartsOn based on your local
+
     return Array.from({ length: 7 }).map((_, index) => ({
-      day: format(addDays(start, index), 'EEEE'), // Full name of the day
+      day: format(addDays(start, index), 'E'), // Full name of the day
       date: format(addDays(start, index), 'd/M') // Format date as needed
     }));
   };
@@ -79,29 +94,59 @@ const Bookings = ({ sessions }) => {
   
     const weekStartDate = format(startOfWeek(selectedDate), 'yyyy-MM-dd');
   
-    const input = {
-      templateName: selectedTemplate.templateName,
-      coach: selectedTemplate.coach,
-      sessionTemplates: selectedTemplate.sessionTemplates.map(session => ({
-        sessionType: session.sessionType,
-        location: session.location,
-        dayOfTheWeek: session.dayOfTheWeek,
-        time: session.time // Ensure the time format matches the backend expectation
-      }))
-    };
-  
     try {
-      await createTemplate({
+      const response = await applySessionsMutation({
         variables: {
-          input: input,
+          templateId: selectedTemplate.id,
           weekStartDate: weekStartDate
         }
       });
-      console.log("Template applied successfully");
-    } catch (error) {
-      console.error("Error applying template", error);
-    }
+      console.log("Sessions applied successfully", response.data.createSessionsFromId);
+    
+    // Merge new sessions with existing ones
+    const newSessions = response.data.createSessionsFromId;
+    const mergedSessions = [...localSessions, ...newSessions];
+
+    // Remove duplicates if necessary
+    const uniqueSessions = mergedSessions.reduce((unique, session) => {
+      return unique.some(s => s.id === session.id) ? unique : [...unique, session];
+    }, []);
+
+    setLocalSessions(uniqueSessions);
+  } catch (error) {
+    console.error("Error applying sessions from template", error);
+  }
   };
+
+  //Should prevent a template being applied to a week multiple times needs alteration since I doubt the Id's will work in this way
+  const isTemplateApplied = () => {
+    if (!selectedTemplate || !localSessions) return false;
+    
+    const templateSessionIds = new Set(selectedTemplate.sessionTemplates.map(s => s.id));
+    return localSessions.some(session => templateSessionIds.has(session.id));
+  };
+  
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  useEffect(() => {
+    setWeekDays(getWeekDays(selectedDate));
+
+    console.log(sessionsData)
+    // Filter sessions for the selected week
+    if (sessionsData) {
+      const startOfWeekDate = startOfWeek(selectedDate, { weekStartsOn: 1 });
+      const endOfWeekDate = endOfWeek(selectedDate, { weekStartsOn: 1 });
+
+      const filteredSessions = sessionsData.allSessions.filter(session => {
+        const sessionDate = new Date(session.time);
+        return sessionDate >= startOfWeekDate && sessionDate <= endOfWeekDate;
+      });
+
+      setLocalSessions(filteredSessions);
+    }
+  }, [selectedDate, sessionsData]);
 
   useEffect(() => {
     if (data) {
@@ -109,11 +154,33 @@ const Bookings = ({ sessions }) => {
     }
   }, [data]);
 
+  //Check the screen orientation, if the user is viewing the page portrait then set isPortrait accordingly
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerWidth < window.innerHeight || window.innerWidth < 800);
+    };
+  // Call handleResize initially to set the correct state based on the current viewport size
+  handleResize();
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (isPortrait) {
+    return (
+      <div style={{ textAlign: 'center', paddingTop: '20%', fontSize: '20px' }}>
+        Please rotate your device to landscape mode.
+      </div>
+    );
+  }
+
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error.message}</p>;
+
   return (
-    <VStack spacing={4} align="stretch">
-      <Flex justify="space-between" p={2} bg="blue.200">
+    <Flex direction='column' alignItems='center' h='calc(100vh)' w='calc(100vw)'>
+      <Flex justify="space-between" w="100%" p={2} bg="blue.200">
       <BackButton/>
       <Button size="xs">Location</Button>
       {selectedTemplate ? (
@@ -128,9 +195,9 @@ const Bookings = ({ sessions }) => {
             </option>
           ))}
         </Select>
-        <Button size="xs" onClick={handleApplyTemplate}>Apply Template</Button>
+        <Button size="xs" onClick={handleApplyTemplate} disabled={isTemplateApplied()}>Apply Template</Button>
       </Flex>
-      <Flex justify="space-between" align="center">
+      <Flex justify="space-between" w="70%" align="center">
         <Button size="sm" w="120px" onClick={handlePrevWeek} mr="30px">&lt; Prev Week</Button>
         <DatePicker 
           selected={selectedDate} 
@@ -140,7 +207,7 @@ const Bookings = ({ sessions }) => {
         />
         <Button size="sm"  w="120px" onClick={handleNextWeek}>Next Week &gt;</Button>
       </Flex>
-      <Flex overflowX="scroll">
+      <Flex direction='row' flex='1' overflowX="scroll" w="99%">
         {weekDays?.map(({day, date}, index) => (
           <VStack key={day} flex="1" border="1px" borderColor="gray.200">
             <Box bg="gray.100" w="100%">
@@ -159,7 +226,7 @@ const Bookings = ({ sessions }) => {
           </VStack>
         ))}
       </Flex>
-    </VStack>
+    </Flex>
   );
 };
 

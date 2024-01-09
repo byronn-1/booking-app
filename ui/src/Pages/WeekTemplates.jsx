@@ -1,10 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Box, Flex, Heading, Button, Table, Thead, Tbody, Tr, Th, Td
 } from '@chakra-ui/react';
 import BackButton from '../_shared/Components/Buttons/BackButton';
+import { GET_ALL_SESSION_TEMPLATES } from '../_graphQL/querys/templateQueries';
+import { useQuery } from '@apollo/client';
 
-const WeekTemplates = ({ weekTemplates }) => {
+const WeekTemplates = () => {
+  const { data, loading, error } = useQuery(GET_ALL_SESSION_TEMPLATES);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error.message}</p>;
+
+  useEffect(() => {
+    console.log(data)
+  },[data])
   return (
     <Box p={4}>
       <Flex justify="space-between" mb={4}>
@@ -21,11 +31,11 @@ const WeekTemplates = ({ weekTemplates }) => {
           </Tr>
         </Thead>
         <Tbody>
-          {weekTemplates?.map(template => (
+        {data?.getAllSevenDaySessionTemplates?.map(template => (
             <Tr key={template.id}>
-              <Td>{template.templateName}</Td>
-              <Td>{template.lastEdited}</Td>
-              <Td isNumeric>{template.numberOfSessions}</Td>
+              <Td>{template.templateName}</Td> {/* Assuming sessionType is similar to templateName */}
+              <Td>{template.time}</Td> {/* Format the date as required */}
+              <Td isNumeric>{template.sessionTemplates.length }</Td>
             </Tr>
           ))}
         </Tbody>

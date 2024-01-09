@@ -9,6 +9,7 @@ import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.stereotype.Controller;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Controller
@@ -20,11 +21,11 @@ public class SevenDaySessionTemplateMutationResolver {
         this.sevenDayTemplateService = sevenDayTemplateService;
     }
     @MutationMapping
-    public List<Session> createSessionsFromId(@Argument(name="templateId") Long id, @Argument(name="weekStartDate") LocalDate weekStartDate){
+    public List<Session> createSessionsFromId(@Argument(name="templateId") Long id, @Argument(name="weekStartDate") LocalDateTime weekStartDate){
         return sevenDayTemplateService.createSessionsFromId(id, weekStartDate);
     }
     @MutationMapping
-    public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput,@Argument(name="weekStartDate") LocalDate weekStartDate) {
+    public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput,@Argument(name="weekStartDate") LocalDateTime weekStartDate) {
 
         return sevenDayTemplateService.createSevenDaySessionsTemplate(sevenDaySessionTemplateInput, weekStartDate);
     }

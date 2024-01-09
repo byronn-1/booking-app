@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Flex, Heading, Button, FormControl, FormErrorMessage, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, VStack } from '@chakra-ui/react';
+import { Box, Flex, Heading, Button, FormControl, FormErrorMessage, FormLabel, IconButton, Input, Modal, ModalBody, ModalCloseButton, ModalContent, ModalHeader, ModalOverlay, Text, VStack, useDisclosure } from '@chakra-ui/react';
 import WeekCalendar from '../_shared/Components/WeekCalendar';
 import BackButton from '../_shared/Components/Buttons/BackButton';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { AddIcon } from '@chakra-ui/icons';
 import { Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -14,6 +14,12 @@ const CreateWeekSessionsTemplate = () => {
   // Function to render content for each day
   const location = useLocation();
   const { templateName, coachName } = location.state || {};
+
+  let navigate = useNavigate();
+
+  // const { isOpen: isSaveModalOpen, onOpen: onSaveModalOpen, onClose: onSaveModalClose } = useDisclosure()
+
+  const [isPortrait, setIsPortrait] = useState(window.innerWidth < window.innerHeight);
 
   const [triggerSave, setTriggerSave] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -51,11 +57,6 @@ const CreateWeekSessionsTemplate = () => {
     actions.setSubmitting(false);
   };
 
-
-  // useEffect(() => {
-  //   console.log(createSevenDaySessionsTemplate)
-  // }, [createSevenDaySessionsTemplate]);
-
   const renderContent = (day, index) => {
     const daySessions = sessions.filter(session => session.dayOfTheWeek === index + 1)
     .sort((a, b) => {
@@ -92,13 +93,36 @@ const CreateWeekSessionsTemplate = () => {
         console.error("Error creating template", error);
         // Error handling
       });
+
+      navigate("/bookings")
   };
 
   const addDateToTime = (time) => {
     const arbitraryDate = "2023-01-01"; // Example date
     return `${arbitraryDate}T${time}`;
   };
+
   
+  //Check the screen orientation, if the user is viewing the page portrait then set isPortrait accordingly
+  useEffect(() => {
+    const handleResize = () => {
+      setIsPortrait(window.innerWidth < window.innerHeight || window.innerWidth < 800);
+    };
+  // Call handleResize initially to set the correct state based on the current viewport size
+  handleResize();
+    window.addEventListener('resize', handleResize);
+    
+    // Cleanup
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  if (isPortrait) {
+    return (
+      <div style={{ textAlign: 'center', paddingTop: '20%', fontSize: '20px' }}>
+        Please rotate your device to landscape mode.
+      </div>
+    );
+  }
   return (
     <Box p={4}>
       <Flex justify="space-between" mb={4}>
@@ -150,8 +174,17 @@ const CreateWeekSessionsTemplate = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+      {/* <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      <ModalOverlay />
+        <ModalContent>
+          <Text> Save the template to your Saved Templates</Text>
+          <Button onClick={processAndSaveSessions}>Save</Button>
+          <Button>Cancel</Button>
+          <ModalCloseButton />
+        </ModalContent>
+      </Modal> */}
     </Flex>
-    </Box>
+  </Box>
     
   );
 };

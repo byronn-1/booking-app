@@ -13,3 +13,14 @@ export const CREATE_SESSION_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_SESSIONS_FROM_TEMPLATE_MUTATION = gql`
+  mutation CreateSessionsFromTemplate($templateId: ID!, $weekStartDate: LocalDateTime!) {
+    createSessionsFromId(templateId: $templateId, weekStartDate: $weekStartDate) {
+      id
+      sessionType
+      location
+      time
+    }
+  }
+`;
