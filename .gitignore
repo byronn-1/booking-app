@@ -34,7 +34,8 @@ build/
 
 
 ### Terraform ###
-/.terraform/*
-.terraform.lock.hcl
-terraform.tfstate
-terraform.tfstate.backup
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/terraform-provider*
