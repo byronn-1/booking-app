@@ -11,9 +11,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
 
   # Attach the SSL/TLS certificate
   viewer_certificate {
-    acm_certificate_arn            = aws_acm_certificate.byronspractice_cert.arn
-    ssl_support_method             = "sni-only"
-    minimum_protocol_version       = "TLSv1.1_2016"
+    acm_certificate_arn      = aws_acm_certificate.byronspractice_cert.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.1_2016"
   }
   restrictions {
     geo_restriction {
@@ -35,9 +35,9 @@ resource "aws_cloudfront_distribution" "s3_distribution" {
       }
     }
 
-    min_ttl                = 0
-    default_ttl            = 3600
-    max_ttl                = 86400
+    min_ttl     = 0
+    default_ttl = 3600
+    max_ttl     = 86400
   }
 
 }

@@ -12,31 +12,32 @@ type Student {
 }
 type Coach {
     id: ID!
-    first_name: String!
-    last_name: String!
-    phone_no: String!
+    firstName: String!
+    lastName: String!
+    phoneNo: String!
     email: String!
     club: ID!
 }
 type Owner {
     id: ID!
-    first_name: String!
-    last_name: String!
-    phone_no: String!
+    firstName: String!
+    lastName: String!
+    phoneNo: String!
     email: String!
-    club: ID!
 }
 type Club {
     id: ID!
-    club_name: String!
-    street_number: String!
-    street_name: String!
-    address_line2: String!
+    clubName: String!
+    clubType: String!
+    streetNumber: String!
+    streetName: String!
+    addressLine2: String!
     city: String!
     state: String!
-    postal_code: String!
+    postalCode: String!
     country: String!
-    owner: ID!
+    websiteUrl:String!
+    isClubPrivate:Boolean!
 }
 type Session {
     id: ID!
@@ -86,29 +87,31 @@ input StudentInput {
     isWaiverSigned: Boolean!
 }
 input CoachInput {
-    first_name: String!
-    last_name: String!
-    phone_no: String!
+    firstName: String!
+    lastName: String!
+    phoneNo: String!
     email: String!
-    club: ID!
 }
 input OwnerInput {
-    first_name: String!
-    last_name: String!
-    phone_no: String!
+    firstName: String!
+    lastName: String!
+    phoneNo: String!
     email: String!
-    club: ID!
+    club: ID
 }
 input ClubInput {
-    club_name: String!
-    street_number: String!
-    street_name: String!
-    address_line2: String!
+    clubName: String!
+    clubType: String!
+    streetNumber: String!
+    streetName: String!
+    addressLine2: String!
     city: String!
     state: String!
-    postal_code: String!
+    postalCode: String!
     country: String!
-    owner: ID!
+    accCreated: LocalDateTime
+    websiteUrl: String!
+    isClubPrivate:Boolean!
 }
 input SessionInput {
     sessionType: String
@@ -133,6 +136,7 @@ input SevenDaySessionTemplateInput {
 type Mutation {
     createClub(clubInput: ClubInput!): Club
     addOwner(ownerInput: OwnerInput!): Owner
+    createClubWithOwner(ownerInput: OwnerInput!, clubInput: ClubInput!): Boolean
     addCoach(coachInput: CoachInput!): Coach
     addStudent(studentInput: StudentInput!): Student
     createSession(sessionInput: SessionInput!): Session
@@ -140,6 +144,7 @@ type Mutation {
     createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime): SevenDaySessionTemplate
     createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
     updateSevenDaySessionTemplate(templateId: ID!, input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
+    deleteClubAndOwnerFromOwnerId(ownerId: ID!): Boolean
 #    addSessionsToTemplate
 #    deleteSessionsFromTemplate
 }

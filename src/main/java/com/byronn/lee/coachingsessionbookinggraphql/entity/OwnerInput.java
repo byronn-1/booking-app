@@ -7,6 +7,14 @@ public class OwnerInput {
     private String email;
     private Long clubId;
 
+    public OwnerInput(String firstName, String lastName, String phoneNo, String email, Long clubId) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.phoneNo = phoneNo;
+        this.email = email;
+        this.clubId = clubId;
+    }
+
     public String getFirstName() {
         return firstName;
     }

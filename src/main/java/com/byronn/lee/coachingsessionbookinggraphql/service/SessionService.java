@@ -90,21 +90,4 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
-/*    @Transactional
-    public void createSessionsFromSevenDayTemplate(Long templateId, LocalDate weekStartDate) {
-        SevenDaySessionTemplate template = SevenDaySessionTemplateRepository.findById(templateId)
-                .orElseThrow(() -> new RuntimeException("Template not found"));
-
-        for (SessionTemplate sessionTemplate : template.getSessionTemplates()) {
-            DayOfWeek day = DayOfWeek.of(sessionTemplate.getDayOfWeek()); // Convert integer to DayOfWeek
-            LocalDate sessionDate = calculateSessionDate(weekStartDate, day);
-            Session newSession = new Session();
-            newSession.setSessionType(sessionTemplate.getSessionType());
-            newSession.setLocation(sessionTemplate.getLocation());
-            newSession.setTime(sessionDate.atTime(sessionTemplate.getTime()));
-            // Set other necessary properties
-
-            sessionRepository.save(newSession);
-        }
-    }*/
 }

@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 
 public class ClubInput {
     private String clubName;
+    private String clubType;
     private String streetNumber;
     private String streetName;
     private String addressLine2;
@@ -14,9 +15,12 @@ public class ClubInput {
     private String country;
     private String state;
     private LocalDateTime accCreated;
+    private String isClubPrivate;
+    private String websiteUrl;
 
-    public ClubInput(String clubName, String streetNumber, String streetName, String addressLine2, String city, String postalCode, String country, String state, LocalDateTime accCreated) {
+    public ClubInput(String clubName,String clubType, String streetNumber, String streetName, String addressLine2, String city, String postalCode, String country, String state, LocalDateTime accCreated, String isClubPrivate, String websiteUrl) {
         this.clubName = clubName;
+        this.clubType = clubType;
         this.streetNumber = streetNumber;
         this.streetName = streetName;
         this.addressLine2 = addressLine2;
@@ -25,10 +29,35 @@ public class ClubInput {
         this.country = country;
         this.state = state;
         this.accCreated = accCreated;
+        this.isClubPrivate = isClubPrivate;
+        this.websiteUrl = websiteUrl;
     }
-
     public String getClubName() {
         return clubName;
+    }
+
+    public String getClubType() {
+        return clubType;
+    }
+
+    public void setClubType(String clubType) {
+        this.clubType = clubType;
+    }
+
+    public String getIsClubPrivate() {
+        return isClubPrivate;
+    }
+
+    public void setIsClubPrivate(String isClubPrivate) {
+        this.isClubPrivate = isClubPrivate;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
     }
 
     public void setClubName(String clubName) {
@@ -103,6 +132,7 @@ public class ClubInput {
     public String toString() {
         return "ClubInput{" +
                 "clubName='" + clubName + '\'' +
+                ", clubType='" + clubType + '\'' +
                 ", streetNumber='" + streetNumber + '\'' +
                 ", streetName='" + streetName + '\'' +
                 ", addressLine2='" + addressLine2 + '\'' +
@@ -111,6 +141,8 @@ public class ClubInput {
                 ", country='" + country + '\'' +
                 ", state='" + state + '\'' +
                 ", accCreated=" + accCreated +
+                ", isClubPrivate='" + isClubPrivate + '\'' +
+                ", websiteUrl='" + websiteUrl + '\'' +
                 '}';
     }
 }

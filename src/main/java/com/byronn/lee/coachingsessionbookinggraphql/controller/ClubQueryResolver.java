@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/*
+* This Controller operates on the Club service and facilitates the reading of Club listings in the Club SQL table.
+*/
 @Controller
 public class ClubQueryResolver {
     private final ClubService clubService;
@@ -15,6 +18,9 @@ public class ClubQueryResolver {
         this.clubService = clubService;
     }
 
+    /*
+    * allClubs accepts no parameters and returns the entire collection of Clubs in the Clubs SQL table.
+    */
     @QueryMapping
     public List<Club> allClubs(){
         return clubService.allClubs();

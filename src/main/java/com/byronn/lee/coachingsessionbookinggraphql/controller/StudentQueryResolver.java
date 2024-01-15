@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/*
+ * This Controller operates on the Student service and facilitates the reading of Student listings in the Club SQL table.
+ */
 @Controller
 public class StudentQueryResolver {
     private StudentService studentService;
@@ -15,6 +18,9 @@ public class StudentQueryResolver {
        this.studentService = studentService;
     }
 
+    /*
+     * getAllStudents accepts no parameters and returns the entire collection of Students in the Students SQL table.
+     */
     @QueryMapping
     public List<Student> getAllStudents() {
         return studentService.getAllStudents();

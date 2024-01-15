@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/*
+ * This Controller operates on the SessionsTemplate service and facilitates the reading of SessionTemplate listings in the SessionTemplate SQL table.
+ */
 @Controller
 public class SessionTemplateQueryResolver {
     public final SessionTemplateService sessionTemplateService;
@@ -14,6 +17,10 @@ public class SessionTemplateQueryResolver {
     public SessionTemplateQueryResolver(SessionTemplateService sessionTemplateService) {
         this.sessionTemplateService = sessionTemplateService;
     }
+
+    /*
+     * getAllSessionTemplates accepts no parameters and returns the entire collection of SessionTemplates in the SessionTemplate SQL table.
+     */
     @QueryMapping
     public List<SessionTemplate> getAllSessionTemplates(){
         return sessionTemplateService.getAllSessionTemplates();

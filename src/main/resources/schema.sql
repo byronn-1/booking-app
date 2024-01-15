@@ -1,6 +1,7 @@
 CREATE TABLE club (
                      id BIGINT PRIMARY KEY AUTO_INCREMENT,
                      club_name VARCHAR(255),
+                club_type VARCHAR(255),
                      street_number VARCHAR(50),
                      street_name VARCHAR(255),
                      address_line2 VARCHAR(255),
@@ -8,7 +9,9 @@ CREATE TABLE club (
                      state VARCHAR(100),
                      postal_code VARCHAR(20),
                      country VARCHAR(100),
-                     acc_created TIMESTAMP
+                     acc_created TIMESTAMP,
+                    website_url VARCHAR(100),
+                     is_club_private BOOLEAN
 );
 CREATE TABLE owner (
                        id BIGINT PRIMARY KEY AUTO_INCREMENT,

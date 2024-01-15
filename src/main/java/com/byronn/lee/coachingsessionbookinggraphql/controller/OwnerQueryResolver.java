@@ -7,6 +7,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/*
+ * This Controller operates on the Owner service and facilitates the reading of Owner listings in the Club SQL table.
+ */
 @Controller
 public class OwnerQueryResolver {
     private final OwnerService ownerService;
@@ -15,6 +18,9 @@ public class OwnerQueryResolver {
         this.ownerService = ownerService;
     }
 
+    /*
+     * allOwners accepts no parameters and returns the entire collection of Owners in the Owner SQL table.
+     */
     @QueryMapping
     public List<Owner>  allOwners(){
         return ownerService.allOwners();

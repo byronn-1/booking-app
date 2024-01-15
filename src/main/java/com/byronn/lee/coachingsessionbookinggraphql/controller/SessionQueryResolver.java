@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
 import java.util.List;
 
+/*
+ * This Controller operates on the Session service and facilitates the reading of Session listings in the Session SQL table.
+ */
 @Controller
 public class SessionQueryResolver {
     private final SessionService sessionService;
@@ -21,19 +24,38 @@ public class SessionQueryResolver {
         this.sessionService = sessionService;
     }
 
+    /*
+     * allSessions accepts no parameters and returns the entire collection of Sessions in the Sessions SQL table.
+     */
     @QueryMapping
     public List<Session> allSessions(){
         return sessionService.allSessions();
     }
+
+    /*
+    *  getSessionsByStudentFirstName accepts a String firstName of a Student and returns a Collection of all sessions with that first name.
+    */
     @QueryMapping
     public Iterable<Session> getSessionsByStudentFirstName(@Argument String firstName) {
         return sessionService.getSessionsByStudentFirstName(firstName);
     }
+
+    /*
+    * getSessionsByDay accepts a String date parses the String into a LocalDate type.
+    * getSessionsByDay returns a Collection of Sessions that have that date.
+    */
     @QueryMapping
     public Iterable<Session> getSessionsByDay(@Argument String date) {
         LocalDate parsedDay = LocalDate.parse(date);
         return sessionService.getSessionsByDay(parsedDay);
     }
+
+    /*
+    *  getSessionsByWeek accepts an argument of String startOfWeekDate which is the date the week starts on.
+    * The week start day is taken as the monday all startOfWeekDate should relate to this day.
+    * getSessionsByWeek parses the String startOfWeekDate into a LocalDate.
+    * startOfWeekDate returns a collection of Sessions that relate to that week.
+    */
     @QueryMapping
     public Iterable<Session> getSessionsByWeek(@Argument String startOfWeekDate) {
         if (startOfWeekDate == null || startOfWeekDate.trim().isEmpty()) {

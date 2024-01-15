@@ -11,8 +11,10 @@ public class Club {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "club_name")
+    @Column(name = "club_ame")
     private String clubName;
+    @Column(name = "club_type")
+    private String clubType;
     @Column(name = "street_number")
     private String streetNumber;
     @Column(name = "street_name")
@@ -29,6 +31,36 @@ public class Club {
     private String state;
     @Column(name = "acc_created")
     private LocalDateTime accCreated;
+
+    @Column(name = "website_url")
+    private String websiteUrl;
+
+    @Column(name = "is_club_private")
+    private String isClubPrivate;
+
+    public String getClubType() {
+        return clubType;
+    }
+
+    public void setClubType(String clubType) {
+        this.clubType = clubType;
+    }
+
+    public String getWebsiteUrl() {
+        return websiteUrl;
+    }
+
+    public String getIsClubPrivate() {
+        return isClubPrivate;
+    }
+
+    public void setWebsiteUrl(String websiteUrl) {
+        this.websiteUrl = websiteUrl;
+    }
+
+    public void setIsClubPrivate(String isClubPrivate) {
+        this.isClubPrivate = isClubPrivate;
+    }
 
     public Long getId() {
         return id;
@@ -123,6 +155,8 @@ public class Club {
                 ", country='" + country + '\'' +
                 ", state='" + state + '\'' +
                 ", accCreated=" + accCreated +
+                ", websiteUrl='" + websiteUrl + '\'' +
+                ", isClubPrivate='" + isClubPrivate + '\'' +
                 '}';
     }
 }

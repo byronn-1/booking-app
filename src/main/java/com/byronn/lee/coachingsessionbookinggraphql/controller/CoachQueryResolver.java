@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
+/*
+* This Controller operates on the CoachService which facilitates operations on the Coach SQL table.
+*/
 @Controller
 public class CoachQueryResolver {
     private final CoachService coachService;
@@ -16,6 +19,9 @@ public class CoachQueryResolver {
         this.coachService = coachService;
     }
 
+    /*
+    * allCoaches accepts no parameters and returns a list of all Coaches in the SQL table.
+    * */
     @QueryMapping
     public List<Coach> allCoaches(){
         return coachService.allCoaches();

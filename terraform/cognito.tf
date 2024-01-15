@@ -1,13 +1,23 @@
 resource "aws_cognito_user_pool" "crew_coord_user_pool" {
-  name = "crew-coord"
+  name = "crew-coord-UserPool"
 
-  # Additional configurations like password policies, email verification, etc.
+  username_attributes = ["email"]
+
+  auto_verified_attributes = ["email"]
+
+  password_policy {
+    minimum_length    = 8
+    require_lowercase = true
+    require_numbers   = true
+    require_symbols   = true
+    require_uppercase = true
+  }
 }
 
 resource "aws_cognito_user_pool_client" "crew_coord_pool_client" {
-  name         = "crew-coord-pool-client"
-  user_pool_id = aws_cognito_user_pool.crew_coord_user_pool.id
-
+  name            = "crew-coord-pool-client"
+  user_pool_id    = aws_cognito_user_pool.crew_coord_user_pool.id
+  generate_secret = false
   # Configure app client settings according to your needs
   # Example:
   # generate_secret = true
