@@ -1,8 +1,6 @@
 package com.byronn.lee.coachingsessionbookinggraphql.controller;
 
-import com.byronn.lee.coachingsessionbookinggraphql.entity.Club;
-import com.byronn.lee.coachingsessionbookinggraphql.entity.ClubInput;
-import com.byronn.lee.coachingsessionbookinggraphql.entity.OwnerInput;
+import com.byronn.lee.coachingsessionbookinggraphql.entity.*;
 import com.byronn.lee.coachingsessionbookinggraphql.service.ClubService;
 import com.byronn.lee.coachingsessionbookinggraphql.service.OwnerService;
 import org.springframework.graphql.data.method.annotation.Argument;
@@ -29,18 +27,20 @@ public class ClubAndOwnerMutationResolver {
     }
 
     @MutationMapping
-    public Boolean createClubWithOwner(@Argument(name="clubInput") ClubInput clubInput, @Argument(name="ownerInput") OwnerInput ownerInput) {
+    public ClubOwnerResponse createClubWithOwner(@Argument(name="clubInput") ClubInput clubInput, @Argument(name="ownerInput") OwnerInput ownerInput) {
         Club club = null;
+        Owner owner = null;
+
         try {
             club = clubService.createClub(clubInput);
-            boolean ownerCreated = ownerService.createOwnerWithClubId(ownerInput, club.getId());
+            owner = ownerService.createOwnerWithClubId(ownerInput, club.getId());
 
-            if (!ownerCreated) {
+            if (owner == null) {
                 // Rollback: Delete the club if owner creation fails
                 clubService.deleteClub(club.getId());
-                return false;
+                return null;
             }
-            return true;
+            return new ClubOwnerResponse(club, owner);
         } catch (Exception e) {
             System.err.println("Error creating club: " + e.getMessage());
             if (club != null) {
@@ -51,7 +51,7 @@ public class ClubAndOwnerMutationResolver {
                     System.err.println("Error during rollback: " + deleteException.getMessage());
                 }
             }
-            return false;
+            return null;
         }
     }
 }

@@ -9,6 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import java.util.List;
 
+/*
+* This Service operates on the ClubRepository. This saves data for the Club entity.
+*  A Club relates to a group of Students with one ClubOwner and Coaches. Clubs will have multiple Sessions associated.
+*
+* */
 @Service
 public class ClubService {
     private static final Logger logger = LoggerFactory.getLogger(ClubService.class);
@@ -19,11 +24,17 @@ private final ClubRepository clubRepository;
         this.clubRepository = clubRepository;
     }
 
+    /*
+    * allClubs accepts no arguments and returns a list of all Clubs in the database.
+    * */
     @Transactional
     public List<Club> allClubs(){
         return clubRepository.findAll();
     }
 
+    /*
+    * createClub creates a new Club in the Club database.
+    * */
     @Transactional
     public Club createClub(ClubInput clubInput){
         Club newClub = new Club();
@@ -51,6 +62,9 @@ private final ClubRepository clubRepository;
 //        }
     }
 
+    /*
+    * deleteClub accepts an argument of clubId and deletes an entry for a Club in the Club daatabase.
+    * */
     @Transactional
     public void deleteClub(Long clubId) {
         try {

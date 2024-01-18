@@ -63,12 +63,18 @@ type SevenDaySessionTemplate {
     coach: String
     sessionTemplates: [SessionTemplate]
 }
+type ClubOwnerResponse {
+    club: Club
+    owner: Owner
+}
 type Query {
     allClubs: [Club]
     allOwners: [Owner]
     allCoaches: [Coach]
     allSessions: [Session]
     getAllStudents: [Student]
+    getSessionsWithClubId(clubId: Int!): [Session]
+    getSevenDaySessionTemplatesWithClubId(clubId:Int!): [SevenDaySessionTemplate]
     getAllSessionTemplates: [SessionTemplate]
     getAllSevenDaySessionTemplates:[SevenDaySessionTemplate]
     getSessionsByStudentFirstName(firstName: String!): [Session]
@@ -136,11 +142,14 @@ input SevenDaySessionTemplateInput {
 type Mutation {
     createClub(clubInput: ClubInput!): Club
     addOwner(ownerInput: OwnerInput!): Owner
-    createClubWithOwner(ownerInput: OwnerInput!, clubInput: ClubInput!): Boolean
+    createClubWithOwner(ownerInput: OwnerInput!, clubInput: ClubInput!): ClubOwnerResponse
     addCoach(coachInput: CoachInput!): Coach
     addStudent(studentInput: StudentInput!): Student
     createSession(sessionInput: SessionInput!): Session
+    createSessionWithClubId(sessionInput: SessionInput!, clubId: Int!): Session
     createSessionsFromId(templateId: ID!, weekStartDate: LocalDateTime!): [Session]
+    createSessionsWithClubIdFromTemplateId(templateId: ID!, weekStartDate: LocalDateTime!, clubId: Int!):[Session]
+    createSevenDaySessionsTemplateFromClubId(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, clubId: Int!): SevenDaySessionTemplate
     createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime): SevenDaySessionTemplate
     createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
     updateSevenDaySessionTemplate(templateId: ID!, input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate

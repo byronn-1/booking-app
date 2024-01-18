@@ -40,6 +40,11 @@ public class SessionQueryResolver {
         return sessionService.getSessionsByStudentFirstName(firstName);
     }
 
+    @QueryMapping
+    public List<Session> getSessionsWithClubId(@Argument Long clubId){
+        return sessionService.getSessionsWithClubId(clubId);
+    }
+
     /*
     * getSessionsByDay accepts a String date parses the String into a LocalDate type.
     * getSessionsByDay returns a Collection of Sessions that have that date.

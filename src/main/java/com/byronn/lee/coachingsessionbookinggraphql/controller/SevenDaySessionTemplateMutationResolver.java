@@ -32,6 +32,14 @@ public class SevenDaySessionTemplateMutationResolver {
         return sevenDayTemplateService.createSessionsFromId(id, weekStartDate);
     }
 
+    @MutationMapping
+    public List<Session> createSessionsWithClubIdFromTemplateId(@Argument(name="templateId") Long templateId, @Argument(name="weekStartDate") LocalDateTime weekStartDate, @Argument(name="clubId") Long clubId){
+        return sevenDayTemplateService.createSessionsWithClubIdFromTemplateId(templateId,  weekStartDate, clubId);
+    }
+    @MutationMapping
+    public SevenDaySessionTemplate createSevenDaySessionsTemplateFromClubId(@Argument(name="sevenDaySessionTemplateInput")SevenDaySessionTemplateInput sevenDaySessionTemplateInput, @Argument(name="clubId") Long clubId){
+        return sevenDayTemplateService.createSevenDaySessionsTemplateFromClubId(sevenDaySessionTemplateInput,clubId);
+    }
 
     @MutationMapping
     public SevenDaySessionTemplate createSevenDaySessionsTemplate(@Argument(name="sevenDaySessionTemplateInput") SevenDaySessionTemplateInput sevenDaySessionTemplateInput,@Argument(name="weekStartDate") LocalDateTime weekStartDate) {
@@ -39,7 +47,10 @@ public class SevenDaySessionTemplateMutationResolver {
         return sevenDayTemplateService.createSevenDaySessionsTemplate(sevenDaySessionTemplateInput, weekStartDate);
     }
 
-
+/*
+* createSevenDaySessionTemplateWithoutSessions operates on the sevenDayTemplateService it creates a block of SessionTemplates.
+* This block of SessionTemplates are then intended to be applied to any given week so that a user can create actual Sessions for a given week.
+* */
     @MutationMapping
     public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(
             @Argument(name="input") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {

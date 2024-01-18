@@ -34,4 +34,8 @@ public class SessionMutationResolver {
         return sessionService.createSession(sessionInput);
     }
 
+    @MutationMapping
+    public Session createSessionWithClubId(@Argument(name="sessionInput") SessionInput sessionInput, @Argument(name="clubId") Long clubId){
+        return sessionService.createSessionWithClubId(sessionInput, clubId);
+    }
 }

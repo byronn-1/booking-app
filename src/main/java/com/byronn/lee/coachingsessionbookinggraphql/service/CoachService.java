@@ -8,6 +8,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/*
+* This service operates on the CoachRepository, this saves data for a Coach entity.
+* A Coach is related to a Club and can create Sessions for a Club.
+* */
 @Service
 public class CoachService {
     private final CoachRepository coachRepository;
@@ -16,11 +20,18 @@ public class CoachService {
         this.coachRepository = coachRepository;
     }
 
+    /*
+    * allCoaches takes no arguments and returns a list of allCoaches in the Coach database.
+    * */
     @Transactional
     public List<Coach> allCoaches(){
         return coachRepository.findAll();
     }
 
+    /*
+    * addCoach accepts the parameter of a CoachInput entity and creates a new Coach entry in the Coach database.
+    * It returns the newly created Coach.
+    * */
     @Transactional
     public Coach addCoach(CoachInput coachInput){
 

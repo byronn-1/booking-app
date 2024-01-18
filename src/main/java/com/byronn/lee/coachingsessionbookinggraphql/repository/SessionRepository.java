@@ -12,5 +12,5 @@ import java.util.List;
 public interface SessionRepository extends JpaRepository<Session, Long> {
     List<Session> findByStudent_FirstName(String firstName);
     List<Session> findByTimeBetween(LocalDateTime startOfDay, LocalDateTime endOfDay);
-
+    List<Session> findByClubId(Long Id);
 }

@@ -2,8 +2,32 @@ resource "aws_cognito_user_pool" "crew_coord_user_pool" {
   name = "crew-coord-UserPool"
 
   username_attributes = ["email"]
-
   auto_verified_attributes = ["email"]
+
+  schema {
+    name                = "isOwner"
+    attribute_data_type = "Boolean"
+    mutable             = true
+  }
+  schema {
+    name                = "ownerId"
+    attribute_data_type = "String"
+    mutable             = true
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 2048
+    }
+  }
+
+  schema {
+    name                = "clubId"
+    attribute_data_type = "String"
+    mutable             = true
+    string_attribute_constraints {
+      min_length = 1
+      max_length = 2048
+    }
+  }
 
   password_policy {
     minimum_length    = 8

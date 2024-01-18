@@ -25,4 +25,5 @@ public class SessionTemplateQueryResolver {
     public List<SessionTemplate> getAllSessionTemplates(){
         return sessionTemplateService.getAllSessionTemplates();
     }
+
 }

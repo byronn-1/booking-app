@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import {
   Box, Flex, Button, FormControl, FormLabel, Input, FormErrorMessage, Heading, Switch
 } from '@chakra-ui/react';
 import BackButton from '../_shared/Components/Buttons/BackButton';
-import { CREATE_SESSION_MUTATION } from '../_graphQL/mutations/sessionMutations';
+import { CREATE_SESSIONS_WITH_CLUB_ID } from '../_graphQL/mutations/sessionMutations';
 import { useMutation } from '@apollo/client';
+import { useSelector } from 'react-redux';
 
 // Validation Schema using Yup
 const SessionSchema = Yup.object().shape({
@@ -28,24 +29,28 @@ const CreateSession = () => {
     isCompleted: false,
   };
 
-  const [createSessionMutation, { loading, error }] = useMutation(CREATE_SESSION_MUTATION);
+  const clubId = useSelector((state) => state.auth.clubId);
+
+  const [createSessionMutation, { loading, error }] = useMutation(CREATE_SESSIONS_WITH_CLUB_ID);
 
 
   const handleSubmit = (values, actions) => {
     console.log(values)
+    console.log(clubId)
     createSessionMutation({
       variables: {
         sessionInput: {
           sessionType: values.sessionType,
           location: values.location,
           time: values.time,
-          isBooked: values.isBooked,  
+          isBooked: values.isBooked,
           isPaidFor: values.isPaidFor,
           isCompleted: values.isCompleted,
-        }
+        },
+        clubId: clubId
       }
     }).then(response => {
-      console.log('Session created:', response.data.createSession);
+      console.log('Session created:', response.data.createSessionWithClubId);
       actions.setSubmitting(false);
     }).catch(e => {
       console.error('Error in mutation:', e);
@@ -53,14 +58,17 @@ const CreateSession = () => {
     });
   };
 
+  useEffect(() => {
+    console.log("clubId from create sessions", clubId)
+  }, [clubId])
   if (loading) return 'Submitting...';
   if (error) return `Submission error! ${error.message}`;
 
   return (
     <Box p={4}>
       <Flex justify="space-between" mb={4}>
-      <BackButton/>
         <Heading size="md">Create Session</Heading>
+        <BackButton />
       </Flex>
       <Formik
         initialValues={initialValues}

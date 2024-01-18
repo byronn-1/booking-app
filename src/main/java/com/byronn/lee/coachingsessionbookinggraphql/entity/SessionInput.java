@@ -6,21 +6,39 @@ public class SessionInput {
     private String sessionType;
     private String location;
     private LocalDateTime time;
-//length of booking
 
+    //duration is mins
+    private int duration;
     private Boolean isBooked;
     private Boolean isPaidFor;
     private Boolean isCompleted;
     private Long studentId;
 
-    public SessionInput(String sessionType, String location, LocalDateTime time, Boolean isBooked, Boolean isPaidFor, Boolean isCompleted, Long studentId) {
+    public SessionInput(String sessionType, String location, LocalDateTime time, int duration, Boolean isBooked, Boolean isPaidFor, Boolean isCompleted, Long studentId) {
         this.sessionType = sessionType;
         this.location = location;
         this.time = time;
+        this.duration = duration;
         this.isBooked = isBooked;
         this.isPaidFor = isPaidFor;
         this.isCompleted = isCompleted;
         this.studentId = studentId;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public Boolean getBooked() {
+        return isBooked;
+    }
+
+    public Boolean getPaidFor() {
+        return isPaidFor;
+    }
+
+    public Boolean getCompleted() {
+        return isCompleted;
     }
 
     public String getSessionType() {

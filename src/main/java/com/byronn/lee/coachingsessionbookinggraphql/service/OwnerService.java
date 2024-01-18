@@ -6,11 +6,14 @@ import com.byronn.lee.coachingsessionbookinggraphql.repository.OwnerRepository;
 import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+
+/*
+* This Service operates on the OwnerRepository and saves data for an Owner entity.
+* */
 @Service
 public class OwnerService {
     private final OwnerRepository ownerRepository;
@@ -19,11 +22,18 @@ public class OwnerService {
         this.ownerRepository = ownerRepository;
     }
 
+    /*
+    * allOwners accepts no arguments and returns a list of all Owners in the Owner database.
+    * */
     @Transactional
     public List<Owner> allOwners(){
         return ownerRepository.findAll();
     }
 
+    /*
+    * addOwner accepts an argument of an OwnerInput entity and creates a record for an Owner and returns a newly created Owner.
+    *
+    * */
     @Transactional
     public Owner addOwner(OwnerInput ownerInput){
         Owner newOwner = new Owner();
@@ -36,8 +46,11 @@ public class OwnerService {
         return newOwner;
     }
 
+    /*
+    *
+    * */
     @Transactional
-    public Boolean createOwnerWithClubId(OwnerInput ownerInput, Long clubId){
+    public Owner createOwnerWithClubId(OwnerInput ownerInput, Long clubId){
         Owner newOwner = new Owner();
         newOwner.setFirstName(ownerInput.getFirstName());
         newOwner.setLastName(ownerInput.getLastName());
@@ -46,11 +59,11 @@ public class OwnerService {
         newOwner.setClubId(clubId);
 
         try{
-            ownerRepository.save(newOwner);
-            return true;
+            return ownerRepository.save(newOwner);
+
         }catch(Exception e){
             System.err.println("Error creating owner: " + e.getMessage());
-            return false;
+            return null;
         }
 
     }

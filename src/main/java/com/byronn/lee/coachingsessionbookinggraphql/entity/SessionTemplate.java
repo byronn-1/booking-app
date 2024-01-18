@@ -23,19 +23,17 @@ public class SessionTemplate {
     private LocalDateTime time;
     @Column(name="seven_day_template_id")
     private Long sevenDaySessionTemplateId;
+    @Column(name="clubId")
+    private Long clubId;
 
-/*    @ManyToOne
-    @JoinColumn(name = "seven_day_template_id")
-    private SevenDaySessionTemplate sevenDaySessionTemplate;*/
-
-    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SevenDaySessionTemplate sevenDaySessionTemplate, Long sevenDaySessionTemplateId) {
+    public SessionTemplate(Long id, String sessionType, String location, int dayOfTheWeek, LocalDateTime time, SevenDaySessionTemplate sevenDaySessionTemplate, Long sevenDaySessionTemplateId, Long clubId) {
         this.id = id;
         this.sessionType = sessionType;
         this.location = location;
         this.dayOfTheWeek = dayOfTheWeek;
         this.time = time;
         this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
-//        this.sevenDaySessionTemplate = sevenDaySessionTemplate;
+        this.clubId = clubId;
     }
 
     public SessionTemplate() {
@@ -74,6 +72,14 @@ public class SessionTemplate {
         return time;
     }
 
+    public Long getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(Long clubId) {
+        this.clubId = clubId;
+    }
+
     public void setSessionType(String sessionType) {
         this.sessionType = sessionType;
     }
@@ -99,6 +105,7 @@ public class SessionTemplate {
                 ", dayOfTheWeek=" + dayOfTheWeek +
                 ", time=" + time +
                 ", sevenDaySessionTemplateId=" + sevenDaySessionTemplateId +
+                ", clubId=" + clubId +
                 '}';
     }
     /*    public void setSevenDaySessionTemplate(SevenDaySessionTemplate sevenDaySessionTemplate) {

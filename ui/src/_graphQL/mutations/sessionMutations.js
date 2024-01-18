@@ -24,3 +24,14 @@ export const CREATE_SESSIONS_FROM_TEMPLATE_MUTATION = gql`
     }
   }
 `;
+
+export const CREATE_SESSIONS_WITH_CLUB_ID = gql`
+  mutation CreateSessionWithClubId($sessionInput: SessionInput!, $clubId: Int!) {
+    createSessionWithClubId(sessionInput: $sessionInput, clubId: $clubId) {
+      id
+      sessionType
+      location
+      time
+    }
+  }
+`;
