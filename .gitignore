@@ -3,6 +3,10 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
+docker-commands.md
+
+### vars ###
+.env
 
 ### STS ###
 .apt_generated
@@ -31,3 +35,13 @@ build/
 
 ### VS Code ###
 .vscode/
+
+
+### Terraform ###
+terraform/.terraform/
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate*
+terraform/terraform.tfstate.backup
+terraform/terraform-provider*
+terraform/secrets.tfvars

@@ -29,10 +29,45 @@ public class Session {
     @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
 
+    @JoinColumn(name = "club_id")
+    private Long clubId;
+
     @ManyToOne
     @JoinColumn(name = "student_id")
     @JsonBackReference
     private Student student;
+
+    public long getClubId() {
+        return clubId;
+    }
+
+    public void setClubId(long clubId) {
+        this.clubId = clubId;
+    }
+
+    public boolean isBooked() {
+        return isBooked;
+    }
+
+    public void setBooked(boolean booked) {
+        isBooked = booked;
+    }
+
+    public boolean isPaidFor() {
+        return isPaidFor;
+    }
+
+    public void setPaidFor(boolean paidFor) {
+        isPaidFor = paidFor;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
+    }
 
     public Long getId() {
         return id;
@@ -108,6 +143,7 @@ public class Session {
                 ", isBooked=" + isBooked +
                 ", isPaidFor=" + isPaidFor +
                 ", isCompleted=" + isCompleted +
+                ", clubId=" + clubId +
                 ", student=" + student +
                 '}';
     }

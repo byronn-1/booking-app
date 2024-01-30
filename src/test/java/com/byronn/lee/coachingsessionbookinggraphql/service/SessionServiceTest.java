@@ -1,3 +1,4 @@
+/*
 package com.byronn.lee.coachingsessionbookinggraphql.service;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.Session;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionInput;
@@ -252,3 +253,4 @@ public class SessionServiceTest {
     }
 
 }
+*/

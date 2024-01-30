@@ -18,20 +18,24 @@ public class SevenDaySessionTemplate {
     @Column(name = "coach")
     private String coach;
 
+    @JoinColumn(name = "club_id")
+    private long clubId;
+
     private transient List<SessionTemplate> sessionTemplates;
 
 /*    @OneToMany(mappedBy = "sevenDaySessionTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionTemplate> sessionTemplates;*/
 
-    public SevenDaySessionTemplate(Long id, String templateName, String coach, List<SessionTemplate> sessionTemplates) {
-        this.id = id;
-        this.templateName = templateName;
-        this.coach = coach;
-        this.sessionTemplates = sessionTemplates;
+    public long getClubId() {
+        return clubId;
     }
 
-    public SevenDaySessionTemplate() {
+    public void setClubId(long clubId) {
+        this.clubId = clubId;
+    }
 
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public List<SessionTemplate> getSessionTemplates() {
@@ -50,14 +54,9 @@ public class SevenDaySessionTemplate {
         this.coach = coach;
     }
 
-
-
     public Long getId() {
         return id;
     }
-/*    public List<SessionTemplate> getSessionTemplates() {
-        return sessionTemplates;
-    }*/
 
     public String getTemplateName() {
         return templateName;
@@ -73,6 +72,7 @@ public class SevenDaySessionTemplate {
                 "id=" + id +
                 ", templateName='" + templateName + '\'' +
                 ", coach='" + coach + '\'' +
+                ", club=" + clubId +
                 ", sessionTemplates=" + sessionTemplates +
                 '}';
     }

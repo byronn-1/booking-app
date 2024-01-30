@@ -2,9 +2,7 @@ package com.byronn.lee.coachingsessionbookinggraphql.service;
 
 import com.byronn.lee.coachingsessionbookinggraphql.entity.Session;
 import com.byronn.lee.coachingsessionbookinggraphql.entity.SessionInput;
-import com.byronn.lee.coachingsessionbookinggraphql.entity.Student;
 import com.byronn.lee.coachingsessionbookinggraphql.repository.SessionRepository;
-import com.byronn.lee.coachingsessionbookinggraphql.repository.StudentRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +14,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/*
+* This Service operates on the SessionRepository, this saves data for a Session entity.
+* A Session is a given period of time that an Owner or Coach can allocate and a Student can book.
+* */
 @Service
 public class SessionService {
 
@@ -25,6 +27,9 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
+    /*
+    * allSessions accepts no parameters and returns a list of all the Sessions in the SessionsRepository.
+    * */
     @Transactional
     public List<Session> allSessions(){
         return sessionRepository.findAll();
@@ -34,6 +39,31 @@ public class SessionService {
         return sessionRepository.findByStudent_FirstName(firstName);
     }
 
+    @Transactional
+    public List<Session> getSessionsWithClubId(Long id){
+        return sessionRepository.findByClubId(id);
+    }
+
+    @Transactional
+    public Session createSessionWithClubId(SessionInput sessionInput, Long clubId){
+       if(sessionInput == null || clubId == null){
+           throw new IllegalArgumentException("Session input or club id cannot be null");
+       }
+
+        Session newSession = new Session();
+        newSession.setSessionType(sessionInput.getSessionType());
+        newSession.setLocation(sessionInput.getLocation());
+        newSession.setTime(sessionInput.getTime());
+        newSession.setIsBooked(sessionInput.getIsBooked());
+        newSession.setIsPaidFor(sessionInput.getIsPaidFor());
+        newSession.setIsCompleted(sessionInput.getIsCompleted());
+        newSession.setClubId(clubId);
+        try {
+            return sessionRepository.save(newSession);
+        } catch (Exception e) {
+            throw new RuntimeException("Error saving session to the repository", e);
+        }
+    }
     @Transactional
     public Session createSession(SessionInput sessionInput){
         System.out.println("is called");
@@ -56,8 +86,6 @@ public class SessionService {
         newSession.setIsPaidFor(sessionInput.getIsPaidFor());
         newSession.setIsCompleted(sessionInput.getIsCompleted());
         try {
-
-
             return sessionRepository.save(newSession);
         } catch (Exception e) {
             throw new RuntimeException("Error saving session to the repository", e);
@@ -90,21 +118,4 @@ public class SessionService {
                 .collect(Collectors.toList());
     }
 
-/*    @Transactional
-    public void createSessionsFromSevenDayTemplate(Long templateId, LocalDate weekStartDate) {
-        SevenDaySessionTemplate template = SevenDaySessionTemplateRepository.findById(templateId)
-                .orElseThrow(() -> new RuntimeException("Template not found"));
-
-        for (SessionTemplate sessionTemplate : template.getSessionTemplates()) {
-            DayOfWeek day = DayOfWeek.of(sessionTemplate.getDayOfWeek()); // Convert integer to DayOfWeek
-            LocalDate sessionDate = calculateSessionDate(weekStartDate, day);
-            Session newSession = new Session();
-            newSession.setSessionType(sessionTemplate.getSessionType());
-            newSession.setLocation(sessionTemplate.getLocation());
-            newSession.setTime(sessionDate.atTime(sessionTemplate.getTime()));
-            // Set other necessary properties
-
-            sessionRepository.save(newSession);
-        }
-    }*/
 }

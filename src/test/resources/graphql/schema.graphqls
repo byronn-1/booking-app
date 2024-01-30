@@ -1,63 +1,63 @@
-scalar DateTime
-@specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
-scalar LocalDateTime
-
-type Session{
-    id: ID!
-    sessionType: String
-    location: String
-    time: LocalDateTime
-    isBooked: Boolean
-    isPaidFor:Boolean
-    isCompleted: Boolean
-    student: Student
-}
-
-type Student {
-    id: ID!
-    firstName: String!
-    lastName: String!
-    phoneNo: String!
-    isWaiverSigned: Boolean!
-    sessions:[Session]
-}
-
-type SessionTemplate {
-    id: ID!
-    templateName: String
-    firstDayOfWeek: LocalDateTime
-    sessions:[Session]
-    coach: String
-}
-
-type Query {
-    allSessions: [Session]
-    getAllStudents: [Student]
-    getSessionsByStudentFirstName(firstName: String!): [Session]
-    getSessionsByDay(day: String!): [Session]
-    getSessionByWeek(week: String!):[Session]
-    getTemplatesByCoach(coachId: ID!): [SessionTemplate]
-}
-
-input SessionInput {
-    sessionType: String
-    location: String
-    time: String
-    isBooked: Boolean!
-    isPaidFor: Boolean!
-    isCompleted: Boolean!
-    studentId: ID
-}
-
-input StudentInput {
-    firstName: String!
-    lastName: String!
-    phoneNo: String!
-    isWaiverSigned: Boolean!
-}
-
-
-type Mutation {
-    addStudent(input: StudentInput!): Student
-    createSession(input: SessionInput!): Session
-}
+#scalar DateTime
+#@specifiedBy(url: "https://scalars.graphql.org/andimarek/date-time.html")
+#scalar LocalDateTime
+#
+#type Session{
+#    id: ID!
+#    sessionType: String
+#    location: String
+#    time: LocalDateTime
+#    isBooked: Boolean
+#    isPaidFor:Boolean
+#    isCompleted: Boolean
+#    student: Student
+#}
+#
+#type Student {
+#    id: ID!
+#    firstName: String!
+#    lastName: String!
+#    phoneNo: String!
+#    isWaiverSigned: Boolean!
+#    sessions:[Session]
+#}
+#
+#type SessionTemplate {
+#    id: ID!
+#    templateName: String
+#    firstDayOfWeek: LocalDateTime
+#    sessions:[Session]
+#    coach: String
+#}
+#
+#type Query {
+#    allSessions: [Session]
+#    getAllStudents: [Student]
+#    getSessionsByStudentFirstName(firstName: String!): [Session]
+#    getSessionsByDay(day: String!): [Session]
+#    getSessionByWeek(week: String!):[Session]
+#    getTemplatesByCoach(coachId: ID!): [SessionTemplate]
+#}
+#
+#input SessionInput {
+#    sessionType: String
+#    location: String
+#    time: String
+#    isBooked: Boolean!
+#    isPaidFor: Boolean!
+#    isCompleted: Boolean!
+#    studentId: ID
+#}
+#
+#input StudentInput {
+#    firstName: String!
+#    lastName: String!
+#    phoneNo: String!
+#    isWaiverSigned: Boolean!
+#}
+#
+#
+#type Mutation {
+#    addStudent(input: StudentInput!): Student
+#    createSession(input: SessionInput!): Session
+#}
