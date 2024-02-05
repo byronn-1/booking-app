@@ -35,6 +35,7 @@ resource "aws_cognito_user_pool" "crew_coord_user_pool" {
     require_numbers   = true
     require_symbols   = true
     require_uppercase = true
+    temporary_password_validity_days = 7
   }
 }
 

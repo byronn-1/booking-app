@@ -17,9 +17,6 @@ resource "aws_ecs_task_definition" "app_task" {
       containerPort = 8080,
       hostPort      = 8080
     }],
-    environment = [
-      { name = "SPRING_DATASOURCE_URL", value = "jdbc:postgresql://crew-coord-cluster.cluster-ceyrdqrrqzdj.eu-west-1.rds.amazonaws.com:5432/crewcoorddb" }
-    ],
     logConfiguration = {
       logDriver = "awslogs"
       options = {
@@ -76,3 +73,4 @@ resource "aws_ecs_service" "app_service" {
 
   desired_count = 1
 }
+

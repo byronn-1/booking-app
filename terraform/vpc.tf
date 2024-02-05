@@ -55,11 +55,11 @@ resource "aws_subnet" "crew_coord_private_subnet_b" {
   vpc_id            = aws_vpc.crew_coord_app_vpc.id
   cidr_block        = "10.0.20.0/24"
   availability_zone = "eu-west-1c"
-
   tags = {
     Name = "crew_coord_private_subnet_b"
   }
 }
+
 
 resource "aws_route_table" "crew_coord_private_rt" {
   vpc_id = aws_vpc.crew_coord_app_vpc.id
@@ -73,7 +73,6 @@ resource "aws_route_table_association" "crew_coord_private_rt_assoc_a" {
   subnet_id      = aws_subnet.crew_coord_private_subnet_a.id
   route_table_id = aws_route_table.crew_coord_private_rt.id
 }
-
 resource "aws_route_table_association" "crew_coord_private_rt_assoc_b" {
   subnet_id      = aws_subnet.crew_coord_private_subnet_b.id
   route_table_id = aws_route_table.crew_coord_private_rt.id

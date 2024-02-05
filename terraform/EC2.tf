@@ -1,4 +1,5 @@
 
+/*
 resource "aws_instance" "crew_coord_test_instance" {
   ami           = "ami-09961f5df132ebff4"
   instance_type = "t2.large"
@@ -23,3 +24,4 @@ resource "aws_security_group_rule" "allow_ssh" {
 
   security_group_id = aws_security_group.crew_coord_app_sg.id
 }
+*/
