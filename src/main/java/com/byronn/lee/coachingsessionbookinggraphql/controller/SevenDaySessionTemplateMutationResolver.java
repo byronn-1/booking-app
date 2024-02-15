@@ -53,9 +53,11 @@ public class SevenDaySessionTemplateMutationResolver {
 * */
     @MutationMapping
     public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(
-            @Argument(name="input") SevenDaySessionTemplateInput sevenDaySessionTemplateInput) {
+            @Argument(name="input") SevenDaySessionTemplateInput sevenDaySessionTemplateInput,
+            @Argument(name="clubId") Long clubId,
+            @Argument(name="coachId") Long coachId ) {
         System.out.println(sevenDaySessionTemplateInput);
-        return sevenDayTemplateService.createSevenDaySessionTemplateWithoutSessions(sevenDaySessionTemplateInput);
+        return sevenDayTemplateService.createSevenDaySessionTemplateWithoutSessions(sevenDaySessionTemplateInput, clubId, coachId);
     }
 
 

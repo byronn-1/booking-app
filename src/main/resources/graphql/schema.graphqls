@@ -16,7 +16,7 @@ type Coach {
     lastName: String!
     phoneNo: String!
     email: String!
-    club: ID!
+    clubId: ID!
 }
 type Owner {
     id: ID!
@@ -24,6 +24,7 @@ type Owner {
     lastName: String!
     phoneNo: String!
     email: String!
+    clubId: ID
 }
 type Club {
     id: ID!
@@ -38,6 +39,7 @@ type Club {
     country: String!
     websiteUrl:String!
     isClubPrivate:Boolean!
+    hasCoaches: Boolean!
 }
 type Session {
     id: ID!
@@ -47,7 +49,9 @@ type Session {
     isBooked: Boolean
     isPaidFor:Boolean
     isCompleted: Boolean
+    duration: Int
     student: Student
+    clubId: ID
 }
 type SessionTemplate {
     id: ID!
@@ -55,12 +59,18 @@ type SessionTemplate {
     location: String
     dayOfTheWeek: Int
     time: LocalDateTime
+    duration: Int
+    coachId: ID
+    ownerId: ID
     sevenDaySessionTemplateId: ID!
 }
 type SevenDaySessionTemplate {
     id:ID!
     templateName: String
     coach: String
+    clubId: ID
+    coachId: ID
+    ownerId: ID
     sessionTemplates: [SessionTemplate]
 }
 type ClubOwnerResponse {
@@ -69,17 +79,20 @@ type ClubOwnerResponse {
 }
 type Query {
     allClubs: [Club]
+    getClubFromClubId(clubId: ID!):Club
     allOwners: [Owner]
+    getOwnerByClubId(clubId: ID!): Owner
     allCoaches: [Coach]
     allSessions: [Session]
     getAllStudents: [Student]
     getSessionsWithClubId(clubId: Int!): [Session]
-    getSevenDaySessionTemplatesWithClubId(clubId:Int!): [SevenDaySessionTemplate]
+    getSevenDaySessionTemplatesWithClubId(clubId:ID!): [SevenDaySessionTemplate]
     getAllSessionTemplates: [SessionTemplate]
     getAllSevenDaySessionTemplates:[SevenDaySessionTemplate]
     getSessionsByStudentFirstName(firstName: String!): [Session]
     getSessionsByDay(date: String!): [Session]
     getSessionsByWeek(startOfWeekDate: String!):[Session]
+    getCoachesFromClubId(clubId: ID!):[Coach]
     getTemplatesByCoach(coachId: ID!): [SessionTemplate]
 }
 
@@ -97,6 +110,7 @@ input CoachInput {
     lastName: String!
     phoneNo: String!
     email: String!
+    clubId: ID!
 }
 input OwnerInput {
     firstName: String!
@@ -126,6 +140,7 @@ input SessionInput {
     isBooked: Boolean!
     isPaidFor: Boolean
     isCompleted: Boolean
+    duration:Int
     studentId: ID
 }
 input SessionTemplateInput {
@@ -133,11 +148,16 @@ input SessionTemplateInput {
     location: String
     dayOfTheWeek: Int
     time: LocalDateTime
+    duration: Int
+    ownerId: ID
+    coachId: ID
 }
 input SevenDaySessionTemplateInput {
     templateName: String
     coach: String
     sessionTemplates: [SessionTemplateInput]
+    coachId: ID
+    ownerId: ID
 }
 type Mutation {
     createClub(clubInput: ClubInput!): Club
@@ -148,10 +168,10 @@ type Mutation {
     createSession(sessionInput: SessionInput!): Session
     createSessionWithClubId(sessionInput: SessionInput!, clubId: Int!): Session
     createSessionsFromId(templateId: ID!, weekStartDate: LocalDateTime!): [Session]
-    createSessionsWithClubIdFromTemplateId(templateId: ID!, weekStartDate: LocalDateTime!, clubId: Int!):[Session]
-    createSevenDaySessionsTemplateFromClubId(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, clubId: Int!): SevenDaySessionTemplate
-    createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime): SevenDaySessionTemplate
-    createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
+    createSessionsWithClubIdFromTemplateId(templateId: ID!, weekStartDate: LocalDateTime!, clubId: ID!):[Session]
+    createSevenDaySessionsTemplateFromClubId(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, clubId: ID!): SevenDaySessionTemplate
+    createSevenDaySessionsTemplate(sevenDaySessionTemplateInput: SevenDaySessionTemplateInput!, weekStartDate: LocalDateTime!): SevenDaySessionTemplate
+    createSevenDaySessionTemplateWithoutSessions(input: SevenDaySessionTemplateInput!,clubId: ID!, coachId: ID!): SevenDaySessionTemplate
     updateSevenDaySessionTemplate(templateId: ID!, input: SevenDaySessionTemplateInput!): SevenDaySessionTemplate
     deleteClubAndOwnerFromOwnerId(ownerId: ID!): Boolean
 #    addSessionsToTemplate

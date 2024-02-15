@@ -30,7 +30,15 @@ public class SevenDaySessionTemplateResolver {
     }
 
     @QueryMapping
-    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(@Argument(name ="clubId") Long clubId){
+    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(@Argument(name="clubId") Long clubId){
         return sevenDayTemplateService.getSevenDaySessionTemplatesWithClubId(clubId);
     }
+//    @QueryMapping
+//    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(@Argument(name ="clubId") Long clubId, @Argument(name= "ownerId") Long ownerId){
+//        return sevenDayTemplateService.getSevenDaySessionTemplatesWithClubId(clubId);
+//    }
+//    @QueryMapping
+//    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(@Argument(name ="clubId") Long clubId, @Argument(name= "coachId") Long coachId){
+//        return sevenDayTemplateService.getSevenDaySessionTemplatesWithClubId(clubId);
+//    }
 }

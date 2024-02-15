@@ -11,6 +11,7 @@ CREATE TABLE club (
                      country VARCHAR(100),
                      acc_created TIMESTAMPZ DEFAULT current_timestamp,
                      website_url VARCHAR(100),
+                     has_coaches BOOLEAN,
                      is_club_private BOOLEAN
 );
 CREATE TABLE owner (
@@ -53,6 +54,8 @@ CREATE TABLE seven_day_session_template (
                                             id BIGSERIAL PRIMARY KEY,
                                             template_name VARCHAR(255),
                                             coach VARCHAR(255),
+                                            coach_id BIGINT,
+                                            owner_id BIGINT,
                                             club_id BIGINT REFERENCES club(id)
 );
 CREATE TABLE session_template (
@@ -61,5 +64,6 @@ CREATE TABLE session_template (
                                   location VARCHAR(255),
                                   day_of_week INT,
                                   time TIME,
+                                    duration INT,
                                   seven_day_template_id BIGINT REFERENCES seven_day_session_template(id)
 );

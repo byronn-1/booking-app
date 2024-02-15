@@ -1,0 +1,16 @@
+query GetAllSessions {
+  allSessions {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+    # student {
+    #   id
+    #   # Include other fields from the Student type as needed
+    # }
+  }
+}

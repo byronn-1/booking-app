@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
-
+import com.byronn.lee.coachingsessionbookinggraphql.entity.Owner;
 @Entity
 @Table(name = "club")
 public class Club {
@@ -35,8 +35,18 @@ public class Club {
     @Column(name = "website_url")
     private String websiteUrl;
 
+    @Column(name = "has_coaches")
+    private Boolean hasCoaches;
+
     @Column(name = "is_club_private")
     private String isClubPrivate;
+    public Boolean getHasCoaches() {
+        return hasCoaches;
+    }
+
+    public void setHasCoaches(Boolean hasCoaches) {
+        this.hasCoaches = hasCoaches;
+    }
 
     public String getClubType() {
         return clubType;

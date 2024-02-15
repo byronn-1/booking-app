@@ -1,0 +1,15 @@
+  query GetSessionsWithClubId($clubId: Int!) {
+    getSessionsWithClubId(clubId: $clubId) {
+      id
+      sessionType
+      location
+      time
+      isBooked
+      isPaidFor
+      isCompleted
+      duration
+    }
+  }
+    {
+        "clubId": 0
+    }

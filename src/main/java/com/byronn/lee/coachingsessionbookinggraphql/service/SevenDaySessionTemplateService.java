@@ -34,8 +34,16 @@ public class SevenDaySessionTemplateService {
         this.sessionTemplateRepository = sessionTemplateRepository;
     }
 
-    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(Long id){
-        return sevenDaySessionRepository.findByClubId(id);
+    public List<SevenDaySessionTemplate> getSevenDaySessionTemplatesWithClubId(Long clubId){
+
+        List<SevenDaySessionTemplate> sevenDaySessionTemplates = sevenDaySessionRepository.findByClubId(clubId);
+
+        for (SevenDaySessionTemplate template : sevenDaySessionTemplates) {
+            // Fetch SessionTemplates associated with the current SevenDaySessionTemplate
+            List<SessionTemplate> sessionTemplates = sessionTemplateRepository.findAllBySevenDaySessionTemplateId(template.getId());
+            template.setSessionTemplates(sessionTemplates);
+        }
+        return sevenDaySessionTemplates;
     }
 
 
@@ -141,7 +149,8 @@ public class SevenDaySessionTemplateService {
         Session session = new Session();
         session.setSessionType(sessionTemplate.getSessionType());
         session.setLocation(sessionTemplate.getLocation());
-        session.setClubId(sessionTemplate.getClubId());
+        session.setClubId(clubId);
+        session.setDuration(sessionTemplate.getDuration());
 
         // Calculate the date and time for the session
         LocalDate sessionDate = calculateSessionDate(weekStartDate, sessionTemplate.getDayOfTheWeek());
@@ -241,6 +250,7 @@ public class SevenDaySessionTemplateService {
             sessionTemplate.setSessionType(sessionTemplateInput.getSessionType());
             sessionTemplate.setLocation(sessionTemplateInput.getLocation());
             sessionTemplate.setTime(sessionTemplateInput.getTime());
+            sessionTemplate.setDuration(sessionTemplateInput.getDuration());
             sessionTemplate.setSevenDaySessionTemplateId(savedTemplate.getId()); // Associate with the seven-day template
             sessionTemplate.setClubId(clubId);
             sessionTemplate.setDayOfTheWeek(sessionTemplateInput.getDayOfTheWeek());
@@ -253,7 +263,7 @@ public class SevenDaySessionTemplateService {
     }
 
     @Transactional
-    public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(SevenDaySessionTemplateInput data) {
+    public SevenDaySessionTemplate createSevenDaySessionTemplateWithoutSessions(SevenDaySessionTemplateInput data, Long clubId, Long coachId) {
 
         if (data == null) {
             throw new IllegalArgumentException("Input cannot be null");
@@ -264,7 +274,8 @@ public class SevenDaySessionTemplateService {
 
         sevenDayTemplate.setTemplateName(data.getTemplateName());
         sevenDayTemplate.setCoach(data.getCoach());
-
+        sevenDayTemplate.setCoachId(coachId);
+        sevenDayTemplate.setClubId(clubId);
         SevenDaySessionTemplate savedTemplate = sevenDaySessionRepository.save(sevenDayTemplate);
 
         if (sevenDayTemplate.getSessionTemplates() == null) {

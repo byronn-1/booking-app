@@ -30,6 +30,11 @@ public class OwnerService {
         return ownerRepository.findAll();
     }
 
+    @Transactional
+    public Owner getOwnerByClubId(Long clubId){
+        return ownerRepository.findOwnerByClubId(clubId);
+    }
+
     /*
     * addOwner accepts an argument of an OwnerInput entity and creates a record for an Owner and returns a newly created Owner.
     *
@@ -84,5 +89,4 @@ public class OwnerService {
             return false;
         }
     }*/
-
 }

@@ -1,0 +1,139 @@
+mutation CreateSessionWithClubId {
+  createSessionWithClubId(
+    sessionInput: {
+    sessionType: "Yoga Class"
+        location: "Club 24 Fitness Center"
+        time: "2024-02-09T10:00:00"
+        isBooked: false
+        isPaidFor: false
+        isCompleted: false
+        duration: 60
+  }
+      clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}
+mutation CreateSessionOnFeb6 {
+  createSessionWithClubId(
+    sessionInput: {
+      sessionType: "Running Club"
+      location: "Path Park"
+      time: "2024-02-06T09:00:00"
+      isBooked: true
+      isPaidFor: true
+      isCompleted: false
+      duration: 45
+    }
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}
+mutation CreateSessionOnFeb6 {
+  createSessionWithClubId(
+    sessionInput: {
+      sessionType: "Lane Swimming"
+      location: "50m Pool"
+      time: "2024-02-06T10:00:00"
+      isBooked: true
+      isPaidFor: true
+      isCompleted: false
+      duration: 45
+    }
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}
+mutation CreateSessionOnFeb6 {
+  createSessionWithClubId(
+    sessionInput: {
+      sessionType: "Spinning Class"
+      location: "Gym A"
+      time: "2024-02-06T08:00:00"
+      isBooked: true
+      isPaidFor: true
+      isCompleted: false
+      duration: 45
+    }
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}
+
+mutation CreateSessionOnFeb7 {
+  createSessionWithClubId(
+    sessionInput: {
+      sessionType: "Pilates"
+      location: "Wellness Center B"
+      time: "2024-02-07T11:00:00"
+      isBooked: false
+      isPaidFor: false
+      isCompleted: false
+      duration: 60
+    }
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}
+mutation CreateSessionOnFeb8 {
+  createSessionWithClubId(
+    sessionInput: {
+      sessionType: "CrossFit"
+      location: "Fitness Hub C"
+      time: "2024-02-08T17:00:00"
+      isBooked: true
+      isPaidFor: true
+      isCompleted: true
+      duration: 30
+    }
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    isBooked
+    isPaidFor
+    isCompleted
+    duration
+  }
+}

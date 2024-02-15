@@ -1,0 +1,8 @@
+query {allCoaches{
+  id
+firstName
+lastName
+phoneNo
+email
+clubId
+}}

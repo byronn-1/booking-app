@@ -1,0 +1,170 @@
+mutation CreateSevenDaySessionsTemplate {
+  createSevenDaySessionsTemplateFromClubId(
+    sevenDaySessionTemplateInput: {
+      templateName: "sports bookings"
+      coach: "sam"
+      sessionTemplates: [
+        { sessionType: "gym", location: "gym", dayOfTheWeek: 1, time: "2023-01-01T20:00:00Z", duration: 60 },
+        { sessionType: "swim", location: "pool", dayOfTheWeek: 2, time: "2023-01-01T08:00:00Z", duration: 60 },
+        { sessionType: "run", location: "park", dayOfTheWeek: 2, time: "2023-01-01T12:30:00Z", duration: 60 },
+        { sessionType: "swim", location: "pool", dayOfTheWeek: 3, time: "2023-01-01T11:00:00Z", duration: 60 },
+        { sessionType: "run", location: "park", dayOfTheWeek: 4, time: "2023-01-01T18:00:00Z", duration: 60 },
+        { sessionType: "gym", location: "gym", dayOfTheWeek: 4, time: "2023-01-01T18:45:00Z", duration: 60 },
+        { sessionType: "circuits", location: "gym", dayOfTheWeek: 5, time: "2023-01-01T20:00:00Z", duration: 60 },
+        { sessionType: "gym", location: "gym", dayOfTheWeek: 6, time: "2023-01-01T09:00:00Z", duration: 60 }
+      ]
+    }
+    clubId: 1
+  ) {
+    id
+    templateName
+    coach
+    sessionTemplates {
+      id
+      sessionType
+      location
+      dayOfTheWeek
+      time
+      duration
+    }
+  }
+}
+
+
+mutation CreateSevenDaySessionsTemplate {
+  createSevenDaySessionsTemplateFromClubId(
+    sevenDaySessionTemplateInput: {
+      templateName: "Weekly Fitness Program"
+      coach: "Jane Doe"
+      sessionTemplates: [
+        { sessionType: "Yoga", location: "Yoga Studio", dayOfTheWeek: 1, time: "2024-02-05T08:00:00", duration: 60 },
+        { sessionType: "Pilates", location: "Pilates Room", dayOfTheWeek: 1, time: "2024-02-06T09:00:00", duration: 60 },
+        { sessionType: "CrossFit", location: "CrossFit Gym", dayOfTheWeek: 2, time: "2024-02-07T08:00:00", duration: 60 },
+        { sessionType: "Spinning", location: "Cycling Studio", dayOfTheWeek: 3, time: "2024-02-08T10:00:00", duration: 60 },
+        { sessionType: "Boxing", location: "Boxing Ring", dayOfTheWeek: 4, time: "2024-02-09T08:00:00", duration: 60 },
+        { sessionType: "Dance", location: "Dance Hall", dayOfTheWeek: 5, time: "2024-02-10T11:00:00", duration: 60 },
+        { sessionType: "Restorative Yoga", location: "Quiet Room", dayOfTheWeek: 6, time: "2024-02-11T10:00:00", duration: 60 }
+      ]
+    }
+    clubId: 1
+  ) {
+    id
+    templateName
+    coach
+    sessionTemplates {
+      id
+      sessionType
+      location
+      dayOfTheWeek
+      time
+      duration
+    }
+  }
+}
+
+
+mutation CreateMultipleSessionsWithClubId {
+  createSessionWithClubId(
+    sessionsInput: [
+      {
+        sessionType: "Yoga Class",
+        location: "Club 24 Fitness Center",
+        time: "2024-02-09T10:00:00",
+        dayOfTheWeek: 1,
+        duration: 60
+      },
+      {
+        sessionType: "Pilates Class",
+        location: "Club 24 Fitness Center",
+        time: "2024-02-10T12:00:00",
+        dayOfTheWeek: 1,
+        duration: 60
+      },
+      {
+        sessionType: "Spin Class",
+        location: "Club 24 Fitness Annex",
+        time: "2024-02-11T07:00:00",
+        dayOfTheWeek: 1,
+        duration: 45
+      },
+      {
+  "sessionType": "Yoga Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-10T08:00:00",
+  "dayOfTheWeek": 2,
+  "duration": 60
+},
+{
+  "sessionType": "Pilates Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-11T09:00:00",
+  "dayOfTheWeek": 3,
+  "duration": 60
+},
+{
+  "sessionType": "Spin Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-12T07:00:00",
+  "dayOfTheWeek": 4,
+  "duration": 45
+},
+{
+  "sessionType": "Kickboxing",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-13T18:00:00",
+  "dayOfTheWeek": 5,
+  "duration": 60
+},
+{
+  "sessionType": "Zumba Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-14T19:00:00",
+  "dayOfTheWeek": 6,
+  "duration": 60
+},
+{
+  "sessionType": "CrossFit",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-15T06:00:00",
+  "dayOfTheWeek": 7,
+  "duration": 60
+},
+{
+  "sessionType": "Strength Training",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-16T10:00:00",
+  "dayOfTheWeek": 1,
+  "duration": 60
+},
+{
+  "sessionType": "HIIT Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-17T08:30:00",
+  "dayOfTheWeek": 2,
+  "duration": 45
+},
+{
+  "sessionType": "Barre Class",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-18T17:00:00",
+  "dayOfTheWeek": 3,
+  "duration": 60
+},
+{
+  "sessionType": "Meditation and Mindfulness",
+  "location": "Club 24 Fitness Center",
+  "time": "2024-02-19T20:00:00",
+  "dayOfTheWeek": 4,
+  "duration": 30
+}
+
+    ],
+    clubId: 1
+  ) {
+    id
+    sessionType
+    location
+    time
+    duration
+  }
+}

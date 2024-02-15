@@ -1,0 +1,14 @@
+query GetCoachesFromClubId($clubId: ID!){
+    getCoachesFromClubId(clubId: $clubId){
+        id
+        firstName
+        lastName
+        phoneNo
+        email
+   		  club
+  }
+}
+
+{
+    "clubId": 0
+}

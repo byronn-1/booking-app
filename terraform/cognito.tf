@@ -8,6 +8,8 @@ resource "aws_cognito_user_pool" "crew_coord_user_pool" {
     name                = "isOwner"
     attribute_data_type = "Boolean"
     mutable             = true
+    developer_only_attribute = false
+    required = false
   }
   schema {
     name                = "ownerId"
@@ -18,7 +20,6 @@ resource "aws_cognito_user_pool" "crew_coord_user_pool" {
       max_length = 2048
     }
   }
-
   schema {
     name                = "clubId"
     attribute_data_type = "String"
@@ -26,6 +27,17 @@ resource "aws_cognito_user_pool" "crew_coord_user_pool" {
     string_attribute_constraints {
       min_length = 1
       max_length = 2048
+    }
+  }
+  schema {
+    attribute_data_type = "Boolean"
+    developer_only_attribute = false
+    mutable = true
+    name = "studentId"
+    required = false
+    string_attribute_constraints {
+      max_length = "2048"
+      min_length = "1"
     }
   }
 

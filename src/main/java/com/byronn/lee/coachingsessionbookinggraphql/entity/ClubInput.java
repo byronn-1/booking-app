@@ -17,8 +17,9 @@ public class ClubInput {
     private LocalDateTime accCreated;
     private String isClubPrivate;
     private String websiteUrl;
+    private Boolean hasCoaches;
 
-    public ClubInput(String clubName,String clubType, String streetNumber, String streetName, String addressLine2, String city, String postalCode, String country, String state, LocalDateTime accCreated, String isClubPrivate, String websiteUrl) {
+    public ClubInput(String clubName,String clubType, String streetNumber, String streetName, String addressLine2, String city, String postalCode, String country, String state, LocalDateTime accCreated, String isClubPrivate, String websiteUrl, Boolean hasCoaches) {
         this.clubName = clubName;
         this.clubType = clubType;
         this.streetNumber = streetNumber;
@@ -31,7 +32,17 @@ public class ClubInput {
         this.accCreated = accCreated;
         this.isClubPrivate = isClubPrivate;
         this.websiteUrl = websiteUrl;
+        this.hasCoaches = hasCoaches;
     }
+
+    public Boolean getHasCoaches() {
+        return hasCoaches;
+    }
+
+    public void setHasCoaches(Boolean hasCoaches) {
+        this.hasCoaches = hasCoaches;
+    }
+
     public String getClubName() {
         return clubName;
     }

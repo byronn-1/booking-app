@@ -29,6 +29,9 @@ public class Session {
     @Column(name = "is_completed", nullable = false)
     private boolean isCompleted;
 
+    @Column(name = "duration", nullable = false)
+    private int duration;
+
     @JoinColumn(name = "club_id")
     private Long clubId;
 
@@ -36,6 +39,14 @@ public class Session {
     @JoinColumn(name = "student_id")
     @JsonBackReference
     private Student student;
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
 
     public long getClubId() {
         return clubId;

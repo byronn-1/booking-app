@@ -1,0 +1,62 @@
+[
+    {
+      "booking_id": "2",
+      "room_id": "2",
+      "person_id": "16",
+      "reserved_from": "2023-07-01T00:00:00.000Z",
+      "reserved_to": "2023-08-03T00:00:00.000Z",
+      "Room": {
+        "room_number": "MV001"
+      },
+      "Person": {
+        "first_name": "Tiffany",
+        "last_name": "Norton",
+        "company": "Netflixx"
+      }
+    },
+    {
+      "booking_id": "4",
+      "room_id": "1",
+      "person_id": "14",
+      "reserved_from": "2023-07-01T00:00:00.000Z",
+      "reserved_to": "2023-07-20T00:00:00.000Z",
+      "Room": {
+        "room_number": "MV000"
+      },
+      "Person": {
+        "first_name": "Andrea",
+        "last_name": "Ramsden",
+        "company": "Netflixx"
+      }
+    },
+    {
+      "booking_id": "7",
+      "room_id": "4",
+      "person_id": "16",
+      "reserved_from": "2023-07-01T00:00:00.000Z",
+      "reserved_to": "2023-07-20T00:00:00.000Z",
+      "Room": {
+        "room_number": "MV003"
+      },
+      "Person": {
+        "first_name": "Tiffany",
+        "last_name": "Norton",
+        "company": "Netflixx"
+      }
+    },
+    {
+      "booking_id": "9",
+      "room_id": "5",
+      "person_id": "15",
+      "reserved_from": "2023-08-10T00:00:00.000Z",
+      "reserved_to": "2023-09-05T00:00:00.000Z",
+      "Room": {
+        "room_number": "MV004"
+      },
+      "Person": {
+        "first_name": "Stanley",
+        "last_name": "Jagger",
+        "company": "Netflixx"
+      }
+    }
+  ]

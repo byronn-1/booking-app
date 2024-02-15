@@ -58,6 +58,7 @@ public class SessionService {
         newSession.setIsPaidFor(sessionInput.getIsPaidFor());
         newSession.setIsCompleted(sessionInput.getIsCompleted());
         newSession.setClubId(clubId);
+        newSession.setDuration(sessionInput.getDuration());
         try {
             return sessionRepository.save(newSession);
         } catch (Exception e) {

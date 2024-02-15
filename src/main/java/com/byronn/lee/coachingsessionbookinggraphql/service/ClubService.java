@@ -32,6 +32,10 @@ private final ClubRepository clubRepository;
         return clubRepository.findAll();
     }
 
+    @Transactional
+    public Club getClubFromClubId(Long clubId){
+        return clubRepository.findClubById(clubId);
+    }
     /*
     * createClub creates a new Club in the Club database.
     * */
@@ -50,6 +54,7 @@ private final ClubRepository clubRepository;
         newClub.setAccCreated(clubInput.getAccCreated());
         newClub.setIsClubPrivate(clubInput.getIsClubPrivate());
         newClub.setWebsiteUrl(clubInput.getWebsiteUrl());
+        newClub.setHasCoaches(Boolean.FALSE);
 
        newClub = clubRepository.save(newClub);
         logger.info("Saved Owner ID: {}", newClub);
@@ -74,5 +79,18 @@ private final ClubRepository clubRepository;
             System.err.println("Error deleting club: " + e.getMessage());
             throw e; // Re-throw to handle in the caller method
         }
+    }
+    /*
+    The method updateHasCoaches is used in the CoachService in the addCoach method.
+    updateHasCoaches checks to see if the club with a given ID has a has_coaches attribute set to FALSE.
+    IF the has_coaches is set to FALSE the method changes the attribute to True.
+    Here it is assumed that only one action is required, if the club has any more than zero coaches then the front end will need to render options for the coaches.
+    The frontend can check to see if it needs to render seven day session templates for a club owner and coaches.
+     */
+    @Transactional
+    public void updateHasCoaches(Long clubId, boolean hasCoaches) {
+        Club club = clubRepository.findById(clubId).orElseThrow(() -> new RuntimeException("Club not found"));
+        club.setHasCoaches(hasCoaches);
+        clubRepository.save(club);
     }
 }

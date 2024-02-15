@@ -10,15 +10,24 @@ public class SessionTemplateInput {
     private int dayOfTheWeek;
     private LocalDateTime time;
 //length of booking
-
+    private int duration;
     private Long sevenDaySessionTemplateId;
 
-    public SessionTemplateInput(String sessionType, String location,int dayOfTheWeek, LocalDateTime time, Long sevenDaySessionTemplateId) {
+    public SessionTemplateInput(String sessionType, String location,int dayOfTheWeek, LocalDateTime time, int duration, Long sevenDaySessionTemplateId) {
         this.sessionType = sessionType;
         this.location = location;
         this.dayOfTheWeek = dayOfTheWeek;
         this.time = time;
+        this.duration = duration;
         this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public Long getSevenDayTemplateId() {

@@ -2,6 +2,7 @@ package com.byronn.lee.coachingsessionbookinggraphql.controller;
 
 import com.byronn.lee.coachingsessionbookinggraphql.entity.Owner;
 import com.byronn.lee.coachingsessionbookinggraphql.service.OwnerService;
+import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.stereotype.Controller;
 
@@ -24,5 +25,10 @@ public class OwnerQueryResolver {
     @QueryMapping
     public List<Owner>  allOwners(){
         return ownerService.allOwners();
+    }
+
+    @QueryMapping
+    public Owner getOwnerByClubId(@Argument Long clubId){
+    return ownerService.getOwnerByClubId(clubId);
     }
 }

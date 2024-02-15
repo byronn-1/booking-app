@@ -1,0 +1,1 @@
+@apollo/client @chakra-ui/icons @chakra-ui/react @emotion/react @emotion/styled @reduxjs/toolkit amazon-cognito-identity-js apollo-server aws-sdk date-fns formik framer-motion react-datepicker react-icons react-redux react-router-dom yup

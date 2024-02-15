@@ -21,6 +21,9 @@ public class SessionTemplate {
     private int dayOfTheWeek; // Storing day of the week
     @Column(name="time")
     private LocalDateTime time;
+    @Column(name="duration")
+    private int duration;
+
     @Column(name="seven_day_template_id")
     private Long sevenDaySessionTemplateId;
     @Column(name="clubId")
@@ -46,6 +49,14 @@ public class SessionTemplate {
 
     public void setSevenDaySessionTemplateId(Long sevenDaySessionTemplateId) {
         this.sevenDaySessionTemplateId = sevenDaySessionTemplateId;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
     }
 
     public Long getId() {

@@ -18,6 +18,9 @@ public class SevenDaySessionTemplate {
     @Column(name = "coach")
     private String coach;
 
+    @Column(name="coach_id")
+    private Long coachId;
+
     @JoinColumn(name = "club_id")
     private long clubId;
 
@@ -25,6 +28,14 @@ public class SevenDaySessionTemplate {
 
 /*    @OneToMany(mappedBy = "sevenDaySessionTemplate", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SessionTemplate> sessionTemplates;*/
+
+    public Long getCoachId() {
+        return coachId;
+    }
+
+    public void setCoachId(Long coachId) {
+        this.coachId = coachId;
+    }
 
     public long getClubId() {
         return clubId;

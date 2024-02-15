@@ -1,0 +1,16 @@
+    mutation addCoach{
+        addCoach(coachInput: {
+            firstName: "byron"
+            lastName: "lee"
+            phoneNo:"1232131213"
+            email:"testemail@gmail.com"
+            clubId:1
+        }){
+            id
+            firstName
+            lastName
+            phoneNo
+            email
+            clubId
+        }
+    }

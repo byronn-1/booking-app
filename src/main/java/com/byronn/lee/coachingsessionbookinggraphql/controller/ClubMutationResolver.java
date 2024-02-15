@@ -30,4 +30,5 @@ public class ClubMutationResolver {
     public Club createClub(@Argument(name="clubInput")ClubInput clubInput){
         return clubService.createClub(clubInput);
     }
+
 }
